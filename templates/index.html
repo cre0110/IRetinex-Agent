@@ -1,0 +1,2339 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智影医镜 Agent</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #14232b;
+      --muted: #5c6b73;
+      --faint: #7b8b94;
+      --paper: #f5f7f6;
+      --surface: #ffffff;
+      --surface-soft: #eef6f4;
+      --line: #d8e3e0;
+      --primary: #0f766e;
+      --primary-deep: #0d4f4b;
+      --blue: #2563eb;
+      --amber: #a15c00;
+      --danger: #b42318;
+      --danger-bg: #fff1ef;
+      --success-bg: #eaf7ef;
+      --shadow: 0 18px 42px rgba(18, 45, 50, 0.11);
+      --radius: 8px;
+      --font: "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100dvh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      background:
+        linear-gradient(90deg, rgba(15, 118, 110, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
+        linear-gradient(135deg, #f7faf9 0%, #eef5f3 52%, #f7f8fb 100%);
+      background-size: 36px 36px, 36px 36px, auto;
+      color: var(--ink);
+      font-family: var(--font);
+      line-height: 1.55;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.28);
+      outline-offset: 2px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: 18px;
+      width: min(1320px, calc(100% - 32px));
+      height: calc(100dvh - 32px);
+      min-height: 0;
+      margin: 16px auto;
+    }
+
+    .sidebar,
+    .chat {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-mark,
+    .avatar {
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: var(--radius);
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      background: var(--primary-deep);
+      color: #ffffff;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .brand p,
+    .side-note,
+    .meta,
+    .helper {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--success-bg);
+      color: #13633d;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .upload-box {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px dashed #8bb9b3;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .file-input {
+      width: 100%;
+      min-height: 46px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--muted);
+    }
+
+    .file-input::file-selector-button {
+      min-height: 34px;
+      margin-right: 10px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--primary-deep);
+      color: #ffffff;
+      font-weight: 800;
+      padding-inline: 12px;
+    }
+
+    .lesion-selector {
+      display: grid;
+      gap: 8px;
+    }
+
+    .lesion-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .lesion-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .lesion-option input {
+      accent-color: var(--primary-deep);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      border: 0;
+      border-radius: var(--radius);
+      font-weight: 800;
+      transition: background 160ms ease, transform 160ms ease, opacity 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .button-primary {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .button-secondary {
+      background: #e8eefc;
+      color: #173f9e;
+    }
+
+    .button-download {
+      width: 100%;
+      border: 1px solid #bfddd8;
+      background: #f1fbf8;
+      color: var(--primary-deep);
+    }
+
+    .button[disabled] {
+      cursor: not-allowed;
+      opacity: 0.58;
+      transform: none;
+    }
+
+    .run-panel {
+      display: grid;
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .run-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .run-row strong {
+      color: var(--ink);
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .report-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .disclaimer {
+      margin-top: auto;
+      padding: 12px;
+      border: 1px solid #ead7a9;
+      border-radius: var(--radius);
+      background: #fff8e8;
+      color: #704200;
+      font-size: 13px;
+    }
+
+    .chat {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .agent-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      background: #e6f5f2;
+      color: var(--primary-deep);
+    }
+
+    .agent-title h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .agent-title p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+      max-width: min(760px, 92%);
+      animation: message-in 180ms ease both;
+    }
+
+    .message.report-message {
+      width: 100%;
+      max-width: min(980px, 100%);
+    }
+
+    .message.user {
+      align-self: flex-end;
+      justify-items: end;
+    }
+
+    .message.agent {
+      align-self: flex-start;
+      justify-items: start;
+    }
+
+    .bubble {
+      min-width: 0;
+      max-width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      background: #ffffff;
+      color: var(--ink);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .user .bubble {
+      border-color: #b7cffd;
+      background: #eaf1ff;
+    }
+
+    .agent .bubble {
+      background: #ffffff;
+    }
+
+    .bubble.error {
+      border-color: #f0b8b2;
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .markdown-body {
+      min-width: 0;
+      max-width: 100%;
+      white-space: normal;
+    }
+
+    .markdown-body > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-body > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-body p {
+      margin: 0 0 0.7em;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
+      margin: 0.75em 0 0.35em;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .markdown-body h1 {
+      font-size: 18px;
+    }
+
+    .markdown-body h2 {
+      font-size: 16px;
+    }
+
+    .markdown-body h3 {
+      font-size: 15px;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      margin: 0 0 0.75em;
+      padding-left: 1.35em;
+    }
+
+    .markdown-body li {
+      margin: 0.2em 0;
+    }
+
+    .markdown-body code {
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      background: #eef4f3;
+      color: #0d4f4b;
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    .markdown-body pre {
+      max-width: 100%;
+      overflow-x: auto;
+      margin: 0 0 0.8em;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f7faf9;
+      white-space: pre;
+    }
+
+    .markdown-body pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .markdown-body blockquote {
+      margin: 0 0 0.8em;
+      padding-left: 0.9em;
+      border-left: 3px solid #9bc7c1;
+      color: var(--muted);
+    }
+
+    .markdown-body a {
+      color: var(--blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .markdown-body a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-body table {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      margin: 0 0 0.8em;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .markdown-body th,
+    .markdown-body td {
+      border: 1px solid var(--line);
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .markdown-body th {
+      background: #f3faf8;
+      color: var(--primary-deep);
+    }
+
+    .message-label {
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .image-bubble {
+      display: grid;
+      gap: 10px;
+      overflow: hidden;
+      max-width: 420px;
+    }
+
+    .image-bubble img {
+      display: block;
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8faf9;
+    }
+
+    .comparison-message {
+      width: 100%;
+      max-width: min(1140px, 100%);
+    }
+
+    .comparison-bubble {
+      display: grid;
+      gap: 8px;
+      width: 100%;
+      padding: 9px;
+    }
+
+    .comparison-title {
+      font-weight: 900;
+      color: var(--primary-deep);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      width: 100%;
+    }
+
+    .comparison-item {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 4px;
+      min-width: 0;
+      margin: 0;
+    }
+
+    .comparison-caption {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .comparison-item img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8faf9;
+    }
+
+    .comparison-steps {
+      display: grid;
+      gap: 5px;
+      padding: 8px;
+      border: 1px solid #d8e6e2;
+      border-radius: var(--radius);
+      background: #f8fbfa;
+    }
+
+    .comparison-step {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .comparison-step-index {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #dff2ee;
+      color: var(--primary-deep);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .comparison-step-title {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .comparison-step-body {
+      overflow-wrap: anywhere;
+    }
+
+    .step {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .step-head {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--primary-deep);
+      font-weight: 900;
+    }
+
+    .step-body {
+      min-width: 0;
+      max-width: 100%;
+      overflow: visible;
+    }
+
+    .report-body {
+      max-height: none;
+      overflow: visible;
+    }
+
+    .step-icon {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 999px;
+      background: #dff2ee;
+      color: var(--primary-deep);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .step-model {
+      min-width: 0;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border: 1px solid #d8e6e2;
+      border-radius: 999px;
+      padding: 3px 8px;
+      color: var(--muted);
+      background: #f3faf8;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 42px;
+    }
+
+    .typing span {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--primary);
+      animation: pulse 900ms ease-in-out infinite;
+    }
+
+    .typing span:nth-child(2) {
+      animation-delay: 120ms;
+    }
+
+    .typing span:nth-child(3) {
+      animation-delay: 240ms;
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 16px 18px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .chat-input {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      resize: none;
+      color: var(--ink);
+      background: #ffffff;
+    }
+
+    .chat-input[disabled] {
+      background: #eef2f1;
+      color: var(--faint);
+    }
+
+    .video-review {
+      position: fixed;
+      inset: 18px;
+      z-index: 40;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      width: min(1040px, calc(100vw - 36px));
+      max-height: calc(100dvh - 36px);
+      margin: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 0 28px 80px rgba(18, 45, 50, 0.28);
+      overflow: hidden;
+    }
+
+    .video-review[hidden] {
+      display: none;
+    }
+
+    .video-review-header,
+    .video-review-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fbfa;
+    }
+
+    .video-review-actions {
+      justify-content: flex-end;
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .video-review-title {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .video-review-title strong {
+      font-size: 15px;
+    }
+
+    .video-review-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .video-review-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.8fr);
+      gap: 14px;
+      min-height: 0;
+      overflow: auto;
+      padding: 14px;
+    }
+
+    .manual-video {
+      width: 100%;
+      max-height: 58dvh;
+      border-radius: var(--radius);
+      background: #000000;
+    }
+
+    .manual-frame-list {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .manual-frame {
+      display: grid;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px;
+      background: #f8fbfa;
+    }
+
+    .manual-frame img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    .manual-frame span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .manual-frame-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .manual-frame-delete {
+      min-height: 30px;
+      padding: 4px 9px;
+      border: 1px solid #f0b8b2;
+      border-radius: 6px;
+      background: #fff1ef;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .video-tool-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    @keyframes message-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      80%,
+      100% {
+        opacity: 0.3;
+        transform: translateY(0);
+      }
+      40% {
+        opacity: 1;
+        transform: translateY(-3px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+        width: min(100% - 20px, 1320px);
+        height: calc(100dvh - 20px);
+        margin: 10px auto;
+      }
+
+      .sidebar {
+        min-height: 0;
+        max-height: 34dvh;
+      }
+
+      .chat {
+        min-height: 0;
+      }
+
+      .message {
+        max-width: 96%;
+      }
+
+      .comparison-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .chat-header,
+      .composer {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .composer {
+        grid-template-columns: 1fr;
+      }
+
+      .button-secondary {
+        width: 100%;
+      }
+
+      .messages {
+        padding: 14px;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar" aria-label="分析控制台">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12c2.2-4.1 5-6.1 8-6.1s5.8 2 8 6.1c-2.2 4.1-5 6.1-8 6.1s-5.8-2-8-6.1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+        </span>
+        <div>
+          <h1>智影医镜 Agent</h1>
+          <p>内镜影像智能体</p>
+        </div>
+      </div>
+
+      <section>
+        <div class="panel-title">
+          <span>上传图像</span>
+          <span class="status-pill"><span class="dot" aria-hidden="true"></span>就绪</span>
+        </div>
+        <form id="analysis-form" enctype="multipart/form-data">
+          <div class="upload-box">
+            <div class="lesion-options" role="radiogroup" aria-label="上传类型">
+              <label class="lesion-option">
+                <input type="radio" name="upload_mode" value="image" checked>
+                <span>图片上传</span>
+              </label>
+              <label class="lesion-option">
+                <input type="radio" name="upload_mode" value="video">
+                <span>视频上传</span>
+              </label>
+            </div>
+            <label class="helper" for="image" id="file-helper">可一次选择多张 png、jpg、jpeg、bmp 或 webp 图像，总大小最大 80MB。</label>
+            <input class="file-input" id="image" name="image" type="file" accept=".png,.jpg,.jpeg,.bmp,.webp,image/*" multiple required>
+            <input class="file-input" id="video" name="video" type="file" accept=".mp4,.avi,.mov,.mkv,.webm,video/*" hidden>
+            <p class="side-note" id="selected-file" aria-live="polite">尚未选择文件</p>
+            <div class="lesion-selector" role="radiogroup" aria-label="病灶类型">
+              <div class="helper">选择本次内镜图片类型</div>
+              <div class="lesion-options">
+                <label class="lesion-option">
+                  <input type="radio" name="lesion_type" value="barrett" required>
+                  <span>上消化道 BE</span>
+                </label>
+                <label class="lesion-option">
+                  <input type="radio" name="lesion_type" value="polyp" checked required>
+                  <span>结肠镜息肉</span>
+                </label>
+              </div>
+            </div>
+            <button class="button button-primary" type="submit" id="submit-button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 4v11m0-11 4 4m-4-4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              发送给智能体
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="run-panel" aria-label="当前会话">
+        <div class="panel-title">当前上下文</div>
+        <div class="run-row"><span>会话</span><strong id="run-id">未开始</strong></div>
+        <div class="run-row"><span>状态</span><strong id="run-status">等待上传</strong></div>
+        <div class="run-row"><span>追问</span><strong id="chat-status">分析完成后可用</strong></div>
+        <div class="report-actions">
+          <button class="button button-download" type="button" id="export-report-button" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 4v10m0 0 4-4m-4 4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5 18.5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            导出报告
+          </button>
+        </div>
+      </section>
+
+      <p class="disclaimer">输出仅供辅助参考，不能替代医生诊断、病理检查或临床决策。</p>
+    </aside>
+
+    <section class="chat" aria-label="智能体对话">
+      <header class="chat-header">
+        <div class="agent-title">
+          <span class="avatar" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v3m0 12v3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M3 12h3m12 0h3M5.6 18.4l2.1-2.1m8.6-8.6 2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div>
+            <h2>AI 对话工作台</h2>
+            <p>上传后，图片、分析步骤和结果会进入同一个上下文。</p>
+          </div>
+        </div>
+        <span class="meta" id="agent-state">等待图片</span>
+      </header>
+
+      <div class="messages" id="messages" aria-live="polite">
+        <article class="message agent">
+          <div class="message-label">智影医镜 Agent</div>
+          <div class="bubble">请发送一张或多张内镜医学影像。我会分别处理每张图片，并把结果放进同一个上下文里综合分析。</div>
+        </article>
+      </div>
+
+      <form class="composer" id="chat-form">
+        <textarea class="chat-input" id="chat-input" rows="1" placeholder="完成一次分析后，可以继续追问结果、依据或不确定性" disabled></textarea>
+        <button class="button button-secondary" type="submit" id="chat-button" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          发送
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <section class="video-review" id="manual-video-panel" hidden aria-label="视频手动选帧">
+    <header class="video-review-header">
+      <div class="video-review-title">
+        <strong>视频手动选帧</strong>
+        <span id="manual-video-status">后台抽帧进行中，你可以播放视频并按 Enter 保留当前画面</span>
+      </div>
+      <button class="button button-secondary" type="button" id="manual-video-close-button">收起</button>
+    </header>
+    <div class="video-review-body">
+      <div>
+        <video class="manual-video" id="manual-video-player" controls preload="metadata" autoplay muted playsinline></video>
+        <div class="video-tool-row">
+          <button class="button button-secondary" type="button" id="manual-video-backward-button">后退 1 秒</button>
+          <button class="button button-primary" type="button" id="manual-video-capture-button">截取当前帧 Enter</button>
+          <button class="button button-secondary" type="button" id="manual-video-forward-button">前进 1 秒</button>
+        </div>
+      </div>
+      <div class="manual-frame-list" id="manual-frame-list"></div>
+    </div>
+    <footer class="video-review-actions">
+      <button class="button button-secondary" type="button" id="manual-video-finish-button">完成手动选帧</button>
+    </footer>
+    <canvas id="manual-frame-canvas" hidden></canvas>
+  </section>
+
+  <script>
+    const state = {
+      runId: null,
+      analyzing: false,
+      analysisComplete: false,
+      reportReady: false,
+      renderedStepCount: 0,
+      visibleStepCount: 0,
+      imageProcessSteps: [],
+      pendingComparisonStep: null,
+      currentImageCard: null,
+      manualVideo: {
+        active: false,
+        objectUrl: null,
+        pendingFrames: [],
+        uploadedFrames: [],
+        finishRequested: false,
+        finalized: false,
+      },
+    };
+
+    const messages = document.querySelector("#messages");
+    const analysisForm = document.querySelector("#analysis-form");
+    const fileInput = document.querySelector("#image");
+    const videoInput = document.querySelector("#video");
+    const uploadModeInputs = Array.from(document.querySelectorAll("input[name='upload_mode']"));
+    const fileHelper = document.querySelector("#file-helper");
+    const lesionTypeInputs = Array.from(document.querySelectorAll("input[name='lesion_type']"));
+    const selectedFile = document.querySelector("#selected-file");
+    const submitButton = document.querySelector("#submit-button");
+    const chatForm = document.querySelector("#chat-form");
+    const chatInput = document.querySelector("#chat-input");
+    const chatButton = document.querySelector("#chat-button");
+    const runIdEl = document.querySelector("#run-id");
+    const runStatusEl = document.querySelector("#run-status");
+    const chatStatusEl = document.querySelector("#chat-status");
+    const exportReportButton = document.querySelector("#export-report-button");
+    const agentStateEl = document.querySelector("#agent-state");
+    const manualVideoPanel = document.querySelector("#manual-video-panel");
+    const manualVideoPlayer = document.querySelector("#manual-video-player");
+    const manualVideoStatus = document.querySelector("#manual-video-status");
+    const manualVideoCloseButton = document.querySelector("#manual-video-close-button");
+    const manualVideoCaptureButton = document.querySelector("#manual-video-capture-button");
+    const manualVideoBackwardButton = document.querySelector("#manual-video-backward-button");
+    const manualVideoForwardButton = document.querySelector("#manual-video-forward-button");
+    const manualVideoFinishButton = document.querySelector("#manual-video-finish-button");
+    const manualFrameCanvas = document.querySelector("#manual-frame-canvas");
+    const manualFrameList = document.querySelector("#manual-frame-list");
+
+    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+    async function parseJsonResponse(response) {
+      const text = await response.text();
+      try {
+        return JSON.parse(text);
+      } catch (error) {
+        const looksLikeHtml = /^\s*<!doctype|^\s*<html/i.test(text);
+        const detail = looksLikeHtml
+          ? "服务器返回了 HTML 错误页，通常是后端异常或上传文件过大。"
+          : text.slice(0, 180);
+        throw new Error(`HTTP ${response.status}：${detail}`);
+      }
+    }
+
+    function scrollToBottom() {
+      window.requestAnimationFrame(() => {
+        messages.scrollTop = messages.scrollHeight;
+        messages.lastElementChild?.scrollIntoView({ block: "end" });
+      });
+    }
+
+    function setText(el, text) {
+      el.textContent = text;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;",
+      }[char]));
+    }
+
+    function renderInlineMarkdown(value) {
+      let html = escapeHtml(value);
+      html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+      html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      html = html.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+      html = html.replace(/(?<!\*)\*([^*\n]+)\*(?!\*)/g, "<em>$1</em>");
+      html = html.replace(/(?<!_)_([^_\n]+)_(?!_)/g, "<em>$1</em>");
+      html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      return html;
+    }
+
+    function isTableDivider(line) {
+      return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+    }
+
+    function splitTableRow(line) {
+      return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
+    }
+
+    function renderMarkdown(value) {
+      const source = String(value ?? "").replace(/\r\n?/g, "\n").trim();
+      if (!source) return "";
+
+      const lines = source.split("\n");
+      const blocks = [];
+      let paragraph = [];
+      let list = null;
+      let quote = [];
+      let inCode = false;
+      let codeLines = [];
+
+      const flushParagraph = () => {
+        if (!paragraph.length) return;
+        blocks.push(`<p>${renderInlineMarkdown(paragraph.join(" "))}</p>`);
+        paragraph = [];
+      };
+      const flushList = () => {
+        if (!list) return;
+        blocks.push(`<${list.type}>${list.items.map((item) => `<li>${renderInlineMarkdown(item)}</li>`).join("")}</${list.type}>`);
+        list = null;
+      };
+      const flushQuote = () => {
+        if (!quote.length) return;
+        blocks.push(`<blockquote>${renderMarkdown(quote.join("\n"))}</blockquote>`);
+        quote = [];
+      };
+      const flushOpenBlocks = () => {
+        flushParagraph();
+        flushList();
+        flushQuote();
+      };
+
+      for (let i = 0; i < lines.length; i += 1) {
+        const line = lines[i];
+        const trimmed = line.trim();
+
+        if (/^```/.test(trimmed)) {
+          if (inCode) {
+            blocks.push(`<pre><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+            codeLines = [];
+            inCode = false;
+          } else {
+            flushOpenBlocks();
+            inCode = true;
+          }
+          continue;
+        }
+
+        if (inCode) {
+          codeLines.push(line);
+          continue;
+        }
+
+        if (!trimmed) {
+          flushOpenBlocks();
+          continue;
+        }
+
+        if (i + 1 < lines.length && trimmed.includes("|") && isTableDivider(lines[i + 1])) {
+          flushOpenBlocks();
+          const headers = splitTableRow(trimmed);
+          i += 1;
+          const rows = [];
+          while (i + 1 < lines.length && lines[i + 1].trim().includes("|") && !isTableDivider(lines[i + 1])) {
+            i += 1;
+            rows.push(splitTableRow(lines[i]));
+          }
+          const thead = `<thead><tr>${headers.map((cell) => `<th>${renderInlineMarkdown(cell)}</th>`).join("")}</tr></thead>`;
+          const tbody = `<tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${renderInlineMarkdown(cell)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+          blocks.push(`<table>${thead}${tbody}</table>`);
+          continue;
+        }
+
+        const heading = /^(#{1,3})\s+(.+)$/.exec(trimmed);
+        if (heading) {
+          flushOpenBlocks();
+          const level = heading[1].length;
+          blocks.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`);
+          continue;
+        }
+
+        const quoteMatch = /^>\s?(.*)$/.exec(line);
+        if (quoteMatch) {
+          flushParagraph();
+          flushList();
+          quote.push(quoteMatch[1]);
+          continue;
+        }
+
+        const unordered = /^\s*[-*+]\s+(.+)$/.exec(line);
+        const ordered = /^\s*\d+\.\s+(.+)$/.exec(line);
+        if (unordered || ordered) {
+          flushParagraph();
+          flushQuote();
+          const type = ordered ? "ol" : "ul";
+          if (!list || list.type !== type) flushList();
+          if (!list) list = { type, items: [] };
+          list.items.push((unordered || ordered)[1]);
+          continue;
+        }
+
+        flushList();
+        flushQuote();
+        paragraph.push(trimmed);
+      }
+
+      if (inCode) {
+        blocks.push(`<pre><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+      }
+      flushOpenBlocks();
+      return blocks.join("");
+    }
+
+    function setMarkdown(el, text) {
+      el.classList.add("markdown-body");
+      el.innerHTML = renderMarkdown(text);
+    }
+
+    function formatStructuredReport(reportJson) {
+      if (!reportJson || typeof reportJson !== "object") return "";
+      const findings = String(reportJson.endoscopic_findings || reportJson["内镜所见"] || "").trim();
+      const rawDiagnosis = reportJson.endoscopic_diagnosis || reportJson["内镜诊断"] || [];
+      const diagnosisItems = Array.isArray(rawDiagnosis)
+        ? rawDiagnosis
+        : String(rawDiagnosis || "").split(/\r?\n/);
+      const diagnosis = diagnosisItems
+        .map((item) => String(item || "").trim().replace(/^\d+\s*[、.．]\s*/, ""))
+        .filter(Boolean)
+        .map((item, index) => `${index + 1}、${/[?？]$/.test(item) ? item : `${item}？`}`)
+        .join("\n");
+      const advice = String(reportJson.followup_advice || reportJson["医生复诊建议"] || "").trim();
+      return [
+        findings ? `内镜所见：${findings}` : "",
+        diagnosis ? `内镜诊断：${diagnosis}` : "",
+        advice ? `医生复诊建议：${advice}` : "",
+      ].filter(Boolean).join("\n\n");
+    }
+
+    function createMessage(role, content, options = {}) {
+      const article = document.createElement("article");
+      article.className = `message ${role}`;
+      if (options.id) article.id = options.id;
+
+      const label = document.createElement("div");
+      label.className = "message-label";
+      label.textContent = role === "user" ? "你" : "智影医镜 Agent";
+
+      const bubble = document.createElement("div");
+      bubble.className = `bubble${options.error ? " error" : ""}`;
+      if (role === "agent") {
+        setMarkdown(bubble, content);
+      } else {
+        bubble.textContent = content;
+      }
+
+      article.append(label, bubble);
+      messages.append(article);
+      scrollToBottom();
+      return article;
+    }
+
+    function createImageMessage(role, imageUrl, caption) {
+      const article = document.createElement("article");
+      article.className = `message ${role}`;
+
+      const label = document.createElement("div");
+      label.className = "message-label";
+      label.textContent = role === "user" ? "你" : "智影医镜 Agent";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble image-bubble";
+
+      const captionEl = document.createElement("div");
+      captionEl.textContent = caption;
+
+      const image = document.createElement("img");
+      image.src = imageUrl;
+      image.alt = caption;
+      image.loading = "lazy";
+      image.addEventListener("load", scrollToBottom, { once: true });
+
+      bubble.append(captionEl, image);
+      article.append(label, bubble);
+      messages.append(article);
+      scrollToBottom();
+      return article;
+    }
+
+    const IMAGE_PROCESS_TITLES = new Set([
+      "图片校验通过",
+      "图片校验失败",
+      "AI 预检判断",
+      "AI 预检降级",
+      "病灶位置标注完成",
+      "病灶定位失败",
+      "本地模型返回失败",
+      "IRetinex 增强完成",
+      "IRetinex 增强失败",
+      "增强图病灶标注完成",
+      "增强图生成完成",
+      "病灶标注失败",
+      "本地标注返回失败",
+      "结构化病灶分析完成",
+      "结构化病灶分析降级",
+    ]);
+    const HIDDEN_STEP_TITLES = new Set([
+      "等待医生手动选帧",
+      "视频分析队列已合并",
+      "手动截图已加入分析队列",
+    ]);
+
+    function normalizeImageStepTitle(step) {
+      return String(step?.title || "")
+        .replace(/^图片\s*\d+\s*[-－]\s*/, "")
+        .trim();
+    }
+
+    function isImageProcessStep(step) {
+      const title = normalizeImageStepTitle(step);
+      return String(step?.title || "").startsWith("开始处理图片") || IMAGE_PROCESS_TITLES.has(title);
+    }
+
+    function shouldHideStep(step) {
+      return HIDDEN_STEP_TITLES.has(normalizeImageStepTitle(step));
+    }
+
+    function stripImageName(text = "") {
+      return String(text)
+        .replace(/^图片\s*\d+\s*[-－]\s*/, "")
+        .replace(/^正在单独处理：/, "")
+        .trim();
+    }
+
+    function getImageProcessCardTitle(step) {
+      if (step?.meta?.comparison_title) {
+        return step.meta.comparison_title;
+      }
+
+      const title = String(step?.title || "");
+      if (title.startsWith("开始处理图片")) {
+        return title.replace("开始处理图片", "处理结果 - 图片");
+      }
+
+      return "处理结果";
+    }
+
+    function renderComparisonSteps(steps) {
+      const validSteps = (steps || []).filter(Boolean);
+      if (!validSteps.length) return null;
+
+      const list = document.createElement("div");
+      list.className = "comparison-steps";
+
+      validSteps.forEach((step, index) => {
+        const row = document.createElement("div");
+        row.className = "comparison-step";
+
+        const indexEl = document.createElement("span");
+        indexEl.className = "comparison-step-index";
+        indexEl.textContent = String(index + 1);
+
+        const text = document.createElement("div");
+        const title = document.createElement("div");
+        title.className = "comparison-step-title";
+        title.textContent = stripImageName(normalizeImageStepTitle(step) || step.title || "处理步骤");
+
+        const body = document.createElement("div");
+        body.className = "comparison-step-body";
+        body.textContent = stripImageName(step.body || "");
+
+        text.append(title);
+        if (body.textContent) text.append(body);
+        row.append(indexEl, text);
+        list.append(row);
+      });
+
+      return list;
+    }
+
+    function createImageComparisonMessage(title, imageItems, processSteps = []) {
+      const card = createImageProcessCard(title || "处理结果");
+      processSteps.forEach((step) => appendImageProcessStep(card, step));
+      setImageProcessImages(card, imageItems || [], title || "处理结果");
+      state.currentImageCard = null;
+      return card.article;
+    }
+
+    function createImageProcessCard(title) {
+      const article = document.createElement("article");
+      article.className = "message agent comparison-message";
+
+      const label = document.createElement("div");
+      label.className = "message-label";
+      label.textContent = "智影医镜 Agent";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble comparison-bubble";
+
+      const titleEl = document.createElement("div");
+      titleEl.className = "comparison-title";
+      titleEl.textContent = title || "处理结果";
+
+      const stepsEl = document.createElement("div");
+      stepsEl.className = "comparison-steps";
+
+      const grid = document.createElement("div");
+      grid.className = "comparison-grid";
+      grid.hidden = true;
+
+      bubble.append(titleEl, stepsEl, grid);
+      article.append(label, bubble);
+      messages.append(article);
+      scrollToBottom();
+
+      return { article, titleEl, stepsEl, grid, stepCount: 0 };
+    }
+
+    function ensureImageProcessCard(title) {
+      if (!state.currentImageCard) {
+        state.currentImageCard = createImageProcessCard(title || "处理结果");
+      } else if (title) {
+        state.currentImageCard.titleEl.textContent = title;
+      }
+      return state.currentImageCard;
+    }
+
+    function appendImageProcessStep(card, step) {
+      card.stepCount += 1;
+
+      const row = document.createElement("div");
+      row.className = "comparison-step";
+
+      const indexEl = document.createElement("span");
+      indexEl.className = "comparison-step-index";
+      indexEl.textContent = String(card.stepCount);
+
+      const text = document.createElement("div");
+      const title = document.createElement("div");
+      title.className = "comparison-step-title";
+      title.textContent = stripImageName(normalizeImageStepTitle(step) || step.title || "处理步骤");
+
+      const body = document.createElement("div");
+      body.className = "comparison-step-body";
+      body.textContent = stripImageName(step.body || "");
+
+      text.append(title);
+      if (body.textContent) text.append(body);
+      row.append(indexEl, text);
+      card.stepsEl.append(row);
+      scrollToBottom();
+    }
+
+    function setImageProcessImages(card, imageItems, title) {
+      const validItems = (imageItems || []).filter((item) => item?.url);
+      if (!validItems.length) return;
+
+      card.grid.innerHTML = "";
+      card.grid.hidden = false;
+      if (title) card.titleEl.textContent = title;
+
+      validItems.forEach((item) => {
+        const tile = document.createElement("figure");
+        tile.className = "comparison-item";
+
+        const caption = document.createElement("figcaption");
+        caption.className = "comparison-caption";
+        caption.textContent = item.caption || "处理结果";
+
+        const image = document.createElement("img");
+        image.src = item.url;
+        image.alt = item.caption || title || "处理结果";
+        image.loading = "lazy";
+        image.addEventListener("load", scrollToBottom, { once: true });
+
+        tile.append(caption, image);
+        card.grid.append(tile);
+      });
+
+      scrollToBottom();
+    }
+
+    function createStepMessage(step, index) {
+      const article = document.createElement("article");
+      article.className = "message agent";
+      if (step.type === "report") {
+        article.classList.add("report-message");
+      }
+
+      const label = document.createElement("div");
+      label.className = "message-label";
+      label.textContent = "智影医镜 Agent";
+
+      const bubble = document.createElement("div");
+      bubble.className = step.type === "error" ? "bubble error" : "bubble";
+
+      const wrap = document.createElement("div");
+      wrap.className = "step";
+
+      const head = document.createElement("div");
+      head.className = "step-head";
+
+      const icon = document.createElement("span");
+      icon.className = "step-icon";
+      icon.textContent = String(index + 1);
+
+      const title = document.createElement("span");
+      title.textContent = step.title || "分析步骤";
+
+      const model = document.createElement("span");
+      model.className = "step-model";
+      const modelName = step.meta?.model;
+      model.textContent = modelName ? `模型：${modelName}` : "";
+      model.title = modelName ? `模型：${modelName}` : "";
+      model.hidden = !modelName;
+
+      const body = document.createElement("div");
+      body.className = step.type === "report" ? "step-body report-body" : "step-body";
+      const reportText = step.type === "report" ? formatStructuredReport(step.meta?.report_json) : "";
+      setMarkdown(body, reportText || step.body || "");
+
+      head.append(icon, title, model);
+      wrap.append(head, body);
+      bubble.append(wrap);
+      article.append(label, bubble);
+      messages.append(article);
+      if (step.type === "report") {
+        window.requestAnimationFrame(() => {
+          article.scrollIntoView({ block: "start" });
+        });
+      } else {
+        scrollToBottom();
+      }
+      return article;
+    }
+
+    function createTyping(id = "typing-message") {
+      const article = document.createElement("article");
+      article.className = "message agent";
+      article.id = id;
+
+      const label = document.createElement("div");
+      label.className = "message-label";
+      label.textContent = "智影医镜 Agent";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble typing";
+      bubble.setAttribute("aria-label", "智能体正在思考");
+      bubble.innerHTML = "<span></span><span></span><span></span>";
+
+      article.append(label, bubble);
+      messages.append(article);
+      scrollToBottom();
+      return article;
+    }
+
+    function removeElementById(id) {
+      document.getElementById(id)?.remove();
+    }
+
+    function updateManualVideoStatus() {
+      const uploaded = state.manualVideo.uploadedFrames.length;
+      const pending = state.manualVideo.pendingFrames.length;
+      if (state.manualVideo.finalized) {
+        manualVideoStatus.textContent = `已完成手动选帧，已加入 ${uploaded} 张截图`;
+      } else if (state.runId) {
+        manualVideoStatus.textContent = `已连接本轮分析，可按 Enter 截图；已上传 ${uploaded} 张，待上传 ${pending} 张。选完后请点击“完成手动选帧”`;
+      } else {
+        manualVideoStatus.textContent = `视频上传中，可先按 Enter 截图；建立会话后会自动上传`;
+      }
+    }
+
+    function renderManualFrames() {
+      manualFrameList.innerHTML = "";
+      const frames = [...state.manualVideo.uploadedFrames, ...state.manualVideo.pendingFrames];
+      if (!frames.length) {
+        const empty = document.createElement("div");
+        empty.className = "manual-frame";
+        empty.textContent = "暂未手动保留截图";
+        manualFrameList.append(empty);
+        return;
+      }
+
+      frames.forEach((frame, index) => {
+        const card = document.createElement("div");
+        card.className = "manual-frame";
+        const img = document.createElement("img");
+        img.src = frame.imageUrl || frame.localUrl;
+        img.alt = `手动截图 ${index + 1}`;
+        const footer = document.createElement("div");
+        footer.className = "manual-frame-footer";
+        const meta = document.createElement("span");
+        meta.textContent = `第 ${index + 1} 张 · ${Number(frame.videoTime || 0).toFixed(2)} 秒 · ${frame.status || "待上传"}`;
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "manual-frame-delete";
+        deleteButton.type = "button";
+        deleteButton.textContent = "删除";
+        deleteButton.disabled = state.manualVideo.finalized || frame.uploading;
+        deleteButton.addEventListener("click", () => deleteManualFrame(frame));
+        footer.append(meta, deleteButton);
+        card.append(img, footer);
+        manualFrameList.prepend(card);
+      });
+    }
+
+    function openManualVideoPanel(file) {
+      if (state.manualVideo.objectUrl) {
+        URL.revokeObjectURL(state.manualVideo.objectUrl);
+      }
+      state.manualVideo = {
+        active: true,
+        objectUrl: URL.createObjectURL(file),
+        pendingFrames: [],
+        uploadedFrames: [],
+        finishRequested: false,
+        finalized: false,
+      };
+      manualVideoPlayer.src = state.manualVideo.objectUrl;
+      manualVideoPlayer.muted = true;
+      manualVideoFinishButton.disabled = false;
+      manualVideoPanel.hidden = false;
+      renderManualFrames();
+      updateManualVideoStatus();
+      manualVideoPlayer.play().catch(() => {
+        manualVideoStatus.textContent = "浏览器阻止了自动播放，请点击视频播放；仍可按 Enter 截图";
+      });
+    }
+
+    function hideManualVideoPanel() {
+      manualVideoPanel.hidden = true;
+      manualVideoPlayer.pause();
+    }
+
+    function jumpManualVideo(seconds) {
+      if (!Number.isFinite(manualVideoPlayer.duration)) return;
+      manualVideoPlayer.currentTime = Math.min(Math.max(manualVideoPlayer.currentTime + seconds, 0), manualVideoPlayer.duration);
+    }
+
+    async function uploadManualFrame(frame) {
+      if (!state.runId || frame.uploaded) return;
+      if (frame.uploading) return frame.uploadPromise;
+      frame.uploading = true;
+      frame.status = "上传中";
+      renderManualFrames();
+      updateManualVideoStatus();
+
+      frame.uploadPromise = (async () => {
+        try {
+          const response = await fetch("/manual-video-frame", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              run_id: state.runId,
+              image: frame.image,
+              video_time: frame.videoTime,
+            }),
+          });
+          const result = await parseJsonResponse(response);
+          if (!result.ok) throw new Error(result.error || "手动截图保存失败");
+          frame.uploaded = true;
+          frame.status = "已加入分析";
+          frame.id = result.id;
+          frame.imageUrl = result.image_url;
+          frame.filename = result.filename;
+          state.manualVideo.pendingFrames = state.manualVideo.pendingFrames.filter((item) => item !== frame);
+          state.manualVideo.uploadedFrames.push(frame);
+        } catch (error) {
+          frame.status = `上传失败：${error.message}`;
+        } finally {
+          frame.uploading = false;
+          renderManualFrames();
+          updateManualVideoStatus();
+        }
+      })();
+      return frame.uploadPromise;
+    }
+
+    async function deleteManualFrame(frame) {
+      if (state.manualVideo.finalized || frame.uploading) return;
+
+      state.manualVideo.pendingFrames = state.manualVideo.pendingFrames.filter((item) => item !== frame);
+      state.manualVideo.uploadedFrames = state.manualVideo.uploadedFrames.filter((item) => item !== frame);
+      renderManualFrames();
+      updateManualVideoStatus();
+
+      if (!frame.uploaded || !state.runId) {
+        return;
+      }
+
+      try {
+        const response = await fetch("/manual-video-frame/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            run_id: state.runId,
+            id: frame.id,
+            filename: frame.filename,
+          }),
+        });
+        const result = await parseJsonResponse(response);
+        if (!result.ok) throw new Error(result.error || "删除手动截图失败");
+      } catch (error) {
+        createMessage("agent", `删除手动截图失败：${error.message}`, { error: true });
+      }
+    }
+
+    function flushManualFrames() {
+      return Promise.all(state.manualVideo.pendingFrames.map((frame) => uploadManualFrame(frame)));
+    }
+
+    async function finishManualVideoFrames() {
+      state.manualVideo.finishRequested = true;
+      if (!state.runId) {
+        updateManualVideoStatus();
+        return;
+      }
+      await flushManualFrames();
+      try {
+        const response = await fetch("/manual-video-frames/finish", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ run_id: state.runId }),
+        });
+        const result = await parseJsonResponse(response);
+        if (!result.ok) throw new Error(result.error || "完成手动选帧失败");
+        state.manualVideo.finalized = true;
+        manualVideoFinishButton.disabled = true;
+        hideManualVideoPanel();
+      } catch (error) {
+        createMessage("agent", `手动选帧提交失败：${error.message}`, { error: true });
+      }
+      updateManualVideoStatus();
+    }
+
+    function captureManualVideoFrame() {
+      if (manualVideoPanel.hidden || !state.manualVideo.active || state.manualVideo.finalized) return;
+      if (manualVideoPlayer.readyState < 2 || !manualVideoPlayer.videoWidth) {
+        createMessage("agent", "视频还没有加载到可截图状态，请稍后再试。", { error: true });
+        return;
+      }
+
+      manualFrameCanvas.width = manualVideoPlayer.videoWidth;
+      manualFrameCanvas.height = manualVideoPlayer.videoHeight;
+      const ctx = manualFrameCanvas.getContext("2d");
+      ctx.drawImage(manualVideoPlayer, 0, 0, manualFrameCanvas.width, manualFrameCanvas.height);
+      const image = manualFrameCanvas.toDataURL("image/png");
+      const frame = {
+        image,
+        localUrl: image,
+        videoTime: manualVideoPlayer.currentTime,
+        status: state.runId ? "待上传" : "等待会话",
+        uploaded: false,
+        uploading: false,
+      };
+      state.manualVideo.pendingFrames.push(frame);
+      renderManualFrames();
+      updateManualVideoStatus();
+      if (state.runId) {
+        uploadManualFrame(frame);
+      }
+    }
+
+    function setReportExportEnabled(enabled) {
+      state.reportReady = Boolean(enabled && state.runId);
+      exportReportButton.disabled = !state.reportReady;
+      exportReportButton.title = state.reportReady
+        ? "下载本次分析的 PDF 报告"
+        : "分析完成并生成报告后可导出";
+    }
+
+    function setAnalyzing(isAnalyzing) {
+      state.analyzing = isAnalyzing;
+      submitButton.disabled = isAnalyzing;
+      fileInput.disabled = isAnalyzing;
+      videoInput.disabled = isAnalyzing;
+      uploadModeInputs.forEach((input) => {
+        input.disabled = isAnalyzing;
+      });
+      lesionTypeInputs.forEach((input) => {
+        input.disabled = isAnalyzing;
+      });
+      agentStateEl.textContent = isAnalyzing ? "分析中" : (state.runId ? "可追问" : "等待图片");
+      runStatusEl.textContent = isAnalyzing ? "分析中" : (state.runId ? "分析完成" : "等待上传");
+      if (isAnalyzing) {
+        setReportExportEnabled(false);
+      }
+    }
+
+    function enableChat(runId) {
+      state.runId = runId;
+      runIdEl.textContent = runId ? runId.slice(0, 8) : "未开始";
+      chatInput.disabled = !runId;
+      chatButton.disabled = !runId;
+      chatStatusEl.textContent = runId ? "已载入图片与分析过程" : "分析完成后可用";
+      agentStateEl.textContent = runId ? "可追问" : "等待图片";
+    }
+
+    function setRunContext(runId) {
+      state.runId = runId;
+      runIdEl.textContent = runId ? runId.slice(0, 8) : "未开始";
+      chatInput.disabled = true;
+      chatButton.disabled = true;
+      chatStatusEl.textContent = runId ? "分析完成后可追问" : "分析完成后可用";
+      setReportExportEnabled(false);
+    }
+
+    function setAnalyzing(isAnalyzing) {
+      state.analyzing = isAnalyzing;
+      submitButton.disabled = isAnalyzing;
+      fileInput.disabled = isAnalyzing;
+      videoInput.disabled = isAnalyzing;
+      uploadModeInputs.forEach((input) => {
+        input.disabled = isAnalyzing;
+      });
+      lesionTypeInputs.forEach((input) => {
+        input.disabled = isAnalyzing;
+      });
+      if (isAnalyzing) {
+        agentStateEl.textContent = "分析中";
+        runStatusEl.textContent = "分析中";
+        setReportExportEnabled(false);
+      }
+    }
+
+    function enableChat(runId) {
+      state.runId = runId;
+      state.analysisComplete = Boolean(runId);
+      runIdEl.textContent = runId ? runId.slice(0, 8) : "未开始";
+      chatInput.disabled = !runId;
+      chatButton.disabled = !runId;
+      chatStatusEl.textContent = runId ? "已载入图片与分析过程" : "分析完成后可用";
+      agentStateEl.textContent = runId ? "可追问" : "等待图片";
+      if (!runId) {
+        setReportExportEnabled(false);
+      } else {
+        setReportExportEnabled(state.reportReady);
+      }
+    }
+
+    async function renderSteps(steps = []) {
+      for (let index = 0; index < steps.length; index += 1) {
+        const step = steps[index];
+        if (shouldHideStep(step)) {
+          continue;
+        }
+        if (renderImageProcessStep(step)) {
+          await sleep(80);
+          continue;
+        }
+        createStepMessage(step, state.visibleStepCount);
+        state.visibleStepCount += 1;
+        renderStepImage(step, index);
+        await sleep(180);
+      }
+      flushPendingImageResult();
+    }
+
+    function getStepImageCaption(step) {
+      const caption = step?.meta?.image_caption;
+      if (caption === "增强图病灶标注结果") {
+        return "这是我生成的增强图病灶标注结果。";
+      }
+      return caption === "病灶位置标注图" || !caption ? "这是我生成的病灶位置标注图。" : caption;
+    }
+
+    function renderStepImage(step, index) {
+      const comparisonItems = step?.meta?.comparison_images;
+      if (Array.isArray(comparisonItems) && comparisonItems.length) {
+        createImageComparisonMessage(step?.meta?.comparison_title || "处理结果", comparisonItems);
+        return;
+      }
+
+      const imageItems = step?.meta?.image_urls;
+      if (Array.isArray(imageItems) && imageItems.length) {
+        imageItems.forEach((item) => {
+          if (!item?.url) return;
+          createImageMessage("agent", item.url, item.caption || getStepImageCaption(step));
+        });
+        return;
+      }
+
+      const imageUrl = step?.meta?.image_url;
+      if (!imageUrl) return;
+
+      const caption = getStepImageCaption(step);
+      createImageMessage("agent", imageUrl, caption);
+    }
+
+    function flushPendingImageResult() {
+      state.currentImageCard = null;
+      state.pendingComparisonStep = null;
+      state.imageProcessSteps = [];
+      return true;
+    }
+
+    function renderImageProcessStep(step) {
+      if (!isImageProcessStep(step)) {
+        return false;
+      }
+
+      if (String(step?.title || "").startsWith("开始处理图片")) {
+        flushPendingImageResult();
+      }
+
+      const title = normalizeImageStepTitle(step);
+      const comparisonItems = step?.meta?.comparison_images;
+      const card = ensureImageProcessCard(getImageProcessCardTitle(step));
+      appendImageProcessStep(card, step);
+
+      if (Array.isArray(comparisonItems) && comparisonItems.length) {
+        state.pendingComparisonStep = step;
+        setImageProcessImages(card, comparisonItems, getImageProcessCardTitle(step));
+        return true;
+      }
+
+      state.imageProcessSteps.push(step);
+      if (title === "结构化病灶分析完成" || title === "结构化病灶分析降级") {
+        flushPendingImageResult();
+      }
+      return true;
+    }
+
+    function handleAnalysisEvent(data) {
+      if (!data || typeof data !== "object") return data;
+
+      if (data.event === "context") {
+        removeElementById("typing-message");
+        if (data.run_id) {
+          setRunContext(data.run_id);
+          runStatusEl.textContent = "分析中";
+          if (state.manualVideo.active) {
+            flushManualFrames();
+            if (state.manualVideo.finishRequested) {
+              finishManualVideoFrames();
+            } else {
+              updateManualVideoStatus();
+            }
+          }
+        }
+        return data;
+      }
+
+      if (data.event === "step" && data.step) {
+        removeElementById("typing-message");
+        const index = Number.isInteger(data.index) ? data.index : state.renderedStepCount;
+        state.renderedStepCount = Math.max(state.renderedStepCount, index + 1);
+        if (shouldHideStep(data.step)) {
+          return data;
+        }
+        runStatusEl.textContent = data.step.type === "error" ? "分析失败" : `正在执行：${data.step.title || "分析步骤"}`;
+        if (!renderImageProcessStep(data.step)) {
+          createStepMessage(data.step, state.visibleStepCount);
+          state.visibleStepCount += 1;
+          renderStepImage(data.step, index);
+        }
+        return data;
+      }
+
+      if (data.event === "done") {
+        removeElementById("typing-message");
+        flushPendingImageResult();
+        if (data.run_id) {
+          enableChat(data.run_id);
+        }
+
+        if (!data.ok) {
+          setReportExportEnabled(false);
+          createMessage("agent", data.error || "分析失败，请稍后重试。", { error: true });
+          runStatusEl.textContent = "分析失败";
+          agentStateEl.textContent = "需要重试";
+          return data;
+        }
+
+        setReportExportEnabled(Boolean(data.run_id && data.report));
+
+        if (data.message) {
+          createMessage("agent", data.message);
+        }
+
+        createMessage("agent", "本轮分析上下文已经整理好。你可以继续追问结果依据、病灶位置、不确定性或下一步建议。");
+        runStatusEl.textContent = "分析完成";
+        agentStateEl.textContent = "可追问";
+        return data;
+      }
+
+      return data;
+    }
+
+    async function readAnalysisStream(response) {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+      let finalData = null;
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          const data = JSON.parse(trimmed);
+          const handled = handleAnalysisEvent(data);
+          if (handled?.event === "done") {
+            finalData = handled;
+          }
+        }
+      }
+
+      buffer += decoder.decode();
+      const trimmed = buffer.trim();
+      if (trimmed) {
+        const data = JSON.parse(trimmed);
+        const handled = handleAnalysisEvent(data);
+        if (handled?.event === "done") {
+          finalData = handled;
+        }
+      }
+
+      if (!finalData) {
+        throw new Error("分析流提前结束，未收到完成事件。");
+      }
+      return finalData;
+    }
+
+    function getUploadMode() {
+      return analysisForm.elements.upload_mode.value || "image";
+    }
+
+    function getActiveFileInput() {
+      return getUploadMode() === "video" ? videoInput : fileInput;
+    }
+
+    function refreshUploadMode() {
+      const isVideo = getUploadMode() === "video";
+      fileInput.hidden = isVideo;
+      fileInput.required = !isVideo;
+      videoInput.hidden = !isVideo;
+      videoInput.required = isVideo;
+      fileHelper.textContent = isVideo
+        ? "请选择 1 个 mp4、avi、mov、mkv 或 webm 视频，总大小最大 80MB。"
+        : "可一次选择多张 png、jpg、jpeg、bmp 或 webp 图像，总大小最大 80MB。";
+      selectedFile.textContent = "尚未选择文件";
+      if (isVideo) {
+        fileInput.value = "";
+      } else {
+        videoInput.value = "";
+      }
+    }
+
+    function updateSelectedFileLabel() {
+      const mode = getUploadMode();
+      const files = Array.from(getActiveFileInput().files || []);
+      if (!files.length) {
+        selectedFile.textContent = "尚未选择文件";
+      } else if (files.length === 1) {
+        selectedFile.textContent = `已选择：${files[0].name}`;
+      } else if (mode === "video") {
+        selectedFile.textContent = "视频模式一次只能选择 1 个视频";
+      } else {
+        selectedFile.textContent = `已选择 ${files.length} 张图片：${files.map((file) => file.name).join("、")}`;
+      }
+    }
+
+    uploadModeInputs.forEach((input) => {
+      input.addEventListener("change", refreshUploadMode);
+    });
+    fileInput.addEventListener("change", updateSelectedFileLabel);
+    videoInput.addEventListener("change", updateSelectedFileLabel);
+    refreshUploadMode();
+
+    analysisForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const uploadMode = getUploadMode();
+      const files = Array.from(getActiveFileInput().files || []);
+      if (!files.length || state.analyzing) return;
+      if (uploadMode === "video" && files.length !== 1) {
+        createMessage("agent", "视频模式一次只能上传一个视频。", { error: true });
+        return;
+      }
+
+      if (uploadMode === "video") {
+        openManualVideoPanel(files[0]);
+      } else {
+        hideManualVideoPanel();
+      }
+
+      enableChat(null);
+      state.analysisComplete = false;
+      state.renderedStepCount = 0;
+      state.visibleStepCount = 0;
+      state.imageProcessSteps = [];
+      state.pendingComparisonStep = null;
+      state.currentImageCard = null;
+      setReportExportEnabled(false);
+      setAnalyzing(true);
+      runStatusEl.textContent = uploadMode === "video"
+        ? "已发送视频"
+        : (files.length === 1 ? "已发送图片" : `已发送 ${files.length} 张图片`);
+
+      files.forEach((file, index) => {
+        if (uploadMode === "video") {
+          createMessage("user", `我上传了一个视频：${file.name}，请先抽取关键帧再分析。`);
+          return;
+        }
+        const previewUrl = URL.createObjectURL(file);
+        const caption = files.length === 1
+          ? "我上传了一张图片，请帮我分析。"
+          : `我上传的第 ${index + 1} 张图片：${file.name}`;
+        createImageMessage("user", previewUrl, caption);
+      });
+      createTyping();
+
+      const formData = new FormData();
+      files.forEach((file) => {
+        formData.append("image", file);
+      });
+      formData.append("upload_mode", uploadMode);
+      formData.append("lesion_type", analysisForm.elements.lesion_type.value);
+
+      try {
+        const response = await fetch("/analyze-stream", {
+          method: "POST",
+          body: formData,
+        });
+        const contentType = response.headers.get("content-type") || "";
+        let data;
+        if (response.body && contentType.includes("application/x-ndjson")) {
+          data = await readAnalysisStream(response);
+        } else {
+          data = await parseJsonResponse(response);
+          removeElementById("typing-message");
+        }
+
+        if (contentType.includes("application/x-ndjson")) {
+          return;
+        }
+
+        if (data.run_id) {
+          enableChat(data.run_id);
+        }
+
+        await renderSteps(data.steps || []);
+
+        if (!data.ok) {
+          setReportExportEnabled(false);
+          createMessage("agent", data.error || "分析失败，请稍后重试。", { error: true });
+          runStatusEl.textContent = "分析失败";
+          agentStateEl.textContent = "需要重试";
+          return;
+        }
+
+        setReportExportEnabled(Boolean(data.run_id && data.report));
+
+        if (data.message) {
+          createMessage("agent", data.message);
+        }
+
+        createMessage("agent", "本轮分析上下文已经整理好。你可以继续追问结果依据、病灶位置、不确定性或下一步建议。");
+      } catch (error) {
+        removeElementById("typing-message");
+        setReportExportEnabled(false);
+        createMessage("agent", `请求失败：${error.message}`, { error: true });
+        runStatusEl.textContent = "请求失败";
+        agentStateEl.textContent = "需要重试";
+      } finally {
+        setAnalyzing(false);
+      }
+    });
+
+    exportReportButton.addEventListener("click", () => {
+      if (!state.runId || !state.reportReady) return;
+      const reportUrl = `/reports/${encodeURIComponent(state.runId)}/export`;
+      const opened = window.open(reportUrl, "_blank");
+      if (opened) {
+        opened.opener = null;
+        opened.focus();
+      } else {
+        createMessage("agent", "浏览器拦截了报告新标签页，请允许弹窗后再点击导出报告。", { error: true });
+      }
+    });
+
+    manualVideoCloseButton.addEventListener("click", hideManualVideoPanel);
+    manualVideoCaptureButton.addEventListener("click", captureManualVideoFrame);
+    manualVideoBackwardButton.addEventListener("click", () => jumpManualVideo(-1));
+    manualVideoForwardButton.addEventListener("click", () => jumpManualVideo(1));
+    manualVideoFinishButton.addEventListener("click", finishManualVideoFrames);
+    manualVideoPlayer.addEventListener("ended", () => {
+      if (state.manualVideo.active && !state.manualVideo.finalized) {
+        manualVideoStatus.textContent = "视频已播放结束；还可以拖动进度条继续截图。确认选完后请点击“完成手动选帧”";
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (manualVideoPanel.hidden || event.code !== "Enter") return;
+      event.preventDefault();
+      captureManualVideoFrame();
+    });
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text || !state.runId) return;
+
+      chatInput.value = "";
+      chatButton.disabled = true;
+      chatInput.disabled = true;
+      createMessage("user", text);
+      createTyping("chat-typing");
+
+      try {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            run_id: state.runId,
+            message: text,
+          }),
+        });
+        const data = await parseJsonResponse(response);
+        removeElementById("chat-typing");
+        if (!data.ok) {
+          createMessage("agent", data.error || "追问失败，请稍后重试。", { error: true });
+          return;
+        }
+        createMessage("agent", data.answer);
+      } catch (error) {
+        removeElementById("chat-typing");
+        createMessage("agent", `追问失败：${error.message}`, { error: true });
+      } finally {
+        chatInput.disabled = false;
+        chatButton.disabled = false;
+        chatInput.focus();
+      }
+    });
+
+    chatInput.addEventListener("input", () => {
+      chatInput.style.height = "auto";
+      chatInput.style.height = `${Math.min(chatInput.scrollHeight, 130)}px`;
+    });
+  </script>
+</body>
+</html>

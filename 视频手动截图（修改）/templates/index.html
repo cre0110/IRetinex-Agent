@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能体视频截帧弹窗 Demo - 路径版</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            background: #f4f6fb;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 1120px;
+            margin: 40px auto;
+            padding: 28px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 26px;
+        }
+
+        .sub-text {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        .video-status {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            line-height: 1.8;
+        }
+
+        .video-status.ok {
+            border-left: 5px solid #16a34a;
+        }
+
+        .video-status.error {
+            border-left: 5px solid #dc2626;
+        }
+
+        .path-text {
+            word-break: break-all;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .main-btn {
+            margin-top: 20px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .main-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .main-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .selected-area {
+            margin-top: 30px;
+        }
+
+        .frame-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .frame-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .frame-card img {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .frame-card p {
+            margin: 8px 0 0;
+            font-size: 13px;
+            color: #4b5563;
+            word-break: break-all;
+        }
+
+        .modal-mask {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.62);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-mask.active {
+            display: flex;
+        }
+
+        .modal {
+            width: min(1220px, 96vw);
+            max-height: 92vh;
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .close-btn {
+            border: none;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 22px;
+            overflow: auto;
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+            gap: 22px;
+        }
+
+        .video-panel,
+        .capture-panel {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .tip {
+            margin: 12px 0;
+            padding: 12px;
+            border-left: 4px solid #2563eb;
+            background: #eff6ff;
+            border-radius: 8px;
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+
+        video {
+            width: 100%;
+            max-height: 540px;
+            margin-top: 14px;
+            background: black;
+            border-radius: 12px;
+        }
+
+
+        .tool-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .modal-actions {
+            padding: 16px 22px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .secondary-btn,
+        .confirm-btn,
+        .danger-btn,
+        .capture-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .secondary-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .confirm-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .danger-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .capture-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .small-text {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .empty-tip {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1>智能体主页面</h1>
+        <p class="sub-text">
+            这里模拟你的智能体项目首页。视频不是在弹窗中临时上传，而是由后端传入一个已经存在的视频路径。
+            点击按钮后，会在当前页面打开视频关键帧截取弹窗。
+        </p>
+
+        {% if video_exists %}
+        <div class="video-status ok">
+            <b>当前视频：</b>{{ video_name }}<br />
+            <span class="path-text">路径：{{ video_path_display }}</span>
+        </div>
+        {% else %}
+        <div class="video-status error">
+            <b>没有找到可播放视频。</b><br />
+            <span class="path-text">当前路径：{{ video_path_display }}</span><br />
+            <span class="small-text">
+                请在 app.py 的 DEFAULT_VIDEO_PATH 中填写视频路径，或启动前设置 VIDEO_PATH 环境变量。
+            </span>
+        </div>
+        {% endif %}
+
+        <button class="main-btn" id="openModalBtn" {% if not video_exists %}disabled{% endif %}>打开视频截帧弹窗</button>
+
+        <div class="selected-area">
+            <h2>最终选中的图像</h2>
+            <p class="sub-text">点击弹窗里的“确认使用这些图像”后，截图会汇总到这里，后续可以继续送入 YOLO / MedSAM / 报告生成模块。</p>
+            <div id="finalFrameGrid" class="frame-grid"></div>
+        </div>
+    </div>
+
+    <div class="modal-mask" id="videoModalMask">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>视频关键帧截取</h2>
+                <button class="close-btn" id="closeModalBtn">关闭</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="video-panel">
+                    <div class="tip">
+                        操作说明：视频来自后端路径，不需要用户现场选择文件。<br />
+                        播放视频，或拖动视频底部自带进度条定位画面，看到满意帧时按 <b>Enter</b> 截图。<br />
+                        截图会保存到后端 <b>static/captures</b> 文件夹，并显示在右侧。
+                    </div>
+
+                    <video id="videoPlayer" controls preload="metadata" src="{{ video_url }}"></video>
+
+
+                    <div class="tool-row">
+                        <button class="capture-btn" id="captureBtn">截取当前帧 Enter</button>
+                        <button class="secondary-btn" id="backwardBtn">后退 1 秒</button>
+                        <button class="secondary-btn" id="forwardBtn">前进 1 秒</button>
+                    </div>
+
+                    <canvas id="captureCanvas" style="display: none;"></canvas>
+                </div>
+
+                <div class="capture-panel">
+                    <h3>弹窗内已截取图像</h3>
+                    <p class="small-text">这些图像是本次弹窗操作期间截取的结果。</p>
+                    <button class="danger-btn" id="clearCurrentBtn">清空本次截图</button>
+                    <div id="currentFrameGrid" class="frame-grid"></div>
+                    <p id="emptyTip" class="empty-tip">暂时还没有截图。</p>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="secondary-btn" id="cancelBtn">取消</button>
+                <button class="confirm-btn" id="confirmBtn">确认使用这些图像</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const openModalBtn = document.getElementById("openModalBtn");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
+        const confirmBtn = document.getElementById("confirmBtn");
+        const clearCurrentBtn = document.getElementById("clearCurrentBtn");
+        const captureBtn = document.getElementById("captureBtn");
+        const backwardBtn = document.getElementById("backwardBtn");
+        const forwardBtn = document.getElementById("forwardBtn");
+
+        const videoModalMask = document.getElementById("videoModalMask");
+        const videoPlayer = document.getElementById("videoPlayer");
+        const captureCanvas = document.getElementById("captureCanvas");
+        const currentFrameGrid = document.getElementById("currentFrameGrid");
+        const finalFrameGrid = document.getElementById("finalFrameGrid");
+        const emptyTip = document.getElementById("emptyTip");
+        let currentCapturedFrames = [];
+
+        if (openModalBtn) {
+            openModalBtn.addEventListener("click", openModal);
+        }
+
+        closeModalBtn.addEventListener("click", closeModal);
+        cancelBtn.addEventListener("click", closeModal);
+        confirmBtn.addEventListener("click", confirmFrames);
+        clearCurrentBtn.addEventListener("click", clearCurrentFrames);
+        captureBtn.addEventListener("click", captureCurrentFrame);
+
+        backwardBtn.addEventListener("click", function () {
+            jumpBySeconds(-1);
+        });
+
+        forwardBtn.addEventListener("click", function () {
+            jumpBySeconds(1);
+        });
+
+        document.addEventListener("keydown", function (event) {
+            const modalIsOpen = videoModalMask.classList.contains("active");
+            if (!modalIsOpen) return;
+
+            if (event.code === "Enter") {
+                event.preventDefault();
+                captureCurrentFrame();
+            }
+
+            if (event.code === "Escape") {
+                closeModal();
+            }
+        });
+
+
+        function openModal() {
+            videoModalMask.classList.add("active");
+        }
+
+        function closeModal() {
+            videoModalMask.classList.remove("active");
+            videoPlayer.pause();
+        }
+
+        function jumpBySeconds(seconds) {
+            if (!Number.isFinite(videoPlayer.duration)) return;
+            const nextTime = Math.min(Math.max(videoPlayer.currentTime + seconds, 0), videoPlayer.duration);
+            videoPlayer.currentTime = nextTime;
+        }
+
+
+        async function captureCurrentFrame() {
+            if (!videoPlayer.src) {
+                alert("没有加载视频，请检查后端传入的视频路径。");
+                return;
+            }
+
+            if (videoPlayer.readyState < 2) {
+                alert("视频还没有加载完成，请稍后再试。");
+                return;
+            }
+
+            captureCanvas.width = videoPlayer.videoWidth;
+            captureCanvas.height = videoPlayer.videoHeight;
+
+            const ctx = captureCanvas.getContext("2d");
+            ctx.drawImage(videoPlayer, 0, 0, captureCanvas.width, captureCanvas.height);
+
+            const imageData = captureCanvas.toDataURL("image/png");
+            const videoTime = videoPlayer.currentTime;
+
+            try {
+                const response = await fetch("/save_frame", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        image: imageData,
+                        video_time: videoTime
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    alert("截图保存失败：" + result.message);
+                    return;
+                }
+
+                currentCapturedFrames.push(result);
+                renderCurrentFrames();
+            } catch (error) {
+                console.error(error);
+                alert("截图上传失败，请检查 Flask 后端是否正常运行。");
+            }
+        }
+
+        function renderCurrentFrames() {
+            currentFrameGrid.innerHTML = "";
+
+            if (currentCapturedFrames.length === 0) {
+                emptyTip.style.display = "block";
+                return;
+            }
+
+            emptyTip.style.display = "none";
+
+            currentCapturedFrames.forEach((frame, index) => {
+                const card = createFrameCard(frame, index + 1);
+                currentFrameGrid.prepend(card);
+            });
+        }
+
+        function renderFinalFrames() {
+            finalFrameGrid.innerHTML = "";
+
+            currentCapturedFrames.forEach((frame, index) => {
+                const card = createFrameCard(frame, index + 1);
+                finalFrameGrid.appendChild(card);
+            });
+        }
+
+        function createFrameCard(frame, number) {
+            const card = document.createElement("div");
+            card.className = "frame-card";
+
+            card.innerHTML = `
+                <img src="${frame.image_url}" alt="截图 ${number}" />
+                <p>第 ${number} 张</p>
+                <p>视频时间：${frame.video_time}s</p>
+                <p>${frame.filename}</p>
+            `;
+
+            return card;
+        }
+
+        function clearCurrentFrames() {
+            currentCapturedFrames = [];
+            renderCurrentFrames();
+        }
+
+        function confirmFrames() {
+            if (currentCapturedFrames.length === 0) {
+                alert("还没有截取任何图像。");
+                return;
+            }
+
+            renderFinalFrames();
+            closeModal();
+        }
+    </script>
+</body>
+</html>

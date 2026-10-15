@@ -1,0 +1,1005 @@
+[
+{
+"rule_id": "barrett_001",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管鳞柱交界线上移及可疑柱状上皮化生",
+"applicable_scene": "白光或普通内镜下观察到食管下段鳞柱交界线上移及可疑柱状上皮化生",
+"endoscopic_features": [
+"内镜下可见食管鳞状上皮与胃柱状上皮的交界线（齿状线/SCJ）相对于胃食管结合部（GEJ）上移≥1cm",
+"病变呈现全周型、舌型或岛型黏膜改变"
+],
+"required_fields": [
+"齿状线(SCJ)位置",
+"胃食管结合部(GEJ)位置",
+"Prague CM分型（全周化生长度C与最大长度M）",
+"内镜下形态分型（全周型/舌型/岛型）"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.7
+},
+"possible_meaning_safe": "影像表现提示食管下段鳞柱交界线上移，疑似Barrett食管相关黏膜改变，最终诊断需结合病理组织学证实是否存在柱状上皮化生或肠上皮化生。",
+"recommendation_safe": "建议内镜医师使用Prague CM分型规范描述病变范围，并由专业医生综合评估是否需要进行规范化内镜下活检以明确诊断。",
+"forbidden_outputs": [
+"确诊Barrett食管",
+"确诊肠上皮化生",
+"直接判断为良性或恶性",
+"无需复查或治疗"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "FC618590-6E2B-49B0-3724-21A1C2DC8B83.pdf",
+"source_section_or_page": "巴雷特食管及其早期腺癌的诊断 / 一、巴雷特食管的诊断 (Page 3)",
+"evidence_text_summary": "诊断标准要求内镜下交界线相对胃食管结合部上移≥1cm，推荐使用Prague CM分型描述圆周及最大长度，形态分型包括全周型、舌型及岛型。"
+},
+{
+"rule_id": "barrett_002",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管形态/结构病变",
+"applicable_scene": "拟针对已发现的可疑Barrett食管黏膜区域提供活检策略或辅助观察建议",
+"endoscopic_features": [
+"疑似巴雷特食管病变，存在色素染色（如靛胭脂、冰醋酸）或电子染色（如NBI、FICE、i-scan）下的黏膜表面形态或血管结构改变",
+"局部黏膜可见绒毛结构或规则/不规则脊状改变"
+],
+"required_fields": [
+"染色内镜技术应用情况（如有）",
+"活检部位分布",
+"活检块数",
+"局部表面微细结构特征"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.7
+},
+"possible_meaning_safe": "借助特殊光学成像或染色观察，可更清晰显示黏膜微结构，有助于提示可能存在的肠化生或异型增生（上皮内瘤变）区域。",
+"recommendation_safe": "建议临床医师考虑采用色素内镜或电子染色内镜辅助定位，实施靶向活检；必要时可参考指南进行规范化多点活检（如全周型每间隔2cm四壁活检，舌型每2cm至少活检1块），最终以病理结果为准。",
+"forbidden_outputs": [
+"确诊异型增生",
+"确诊高级别上皮内瘤变",
+"确诊早期腺癌",
+"提供具体活检操作指令"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "FC618590-6E2B-49B0-3724-21A1C2DC8B83.pdf",
+"source_section_or_page": "巴雷特食管及其早期腺癌的诊断 / 色素内镜、电子染色内镜及放大内镜 (Page 3-4)",
+"evidence_text_summary": "为明确肠化及异型增生，推荐全周型每2cm四壁活检，舌型每2cm活检1块。推荐使用色素内镜或电子染色内镜（NBI、FICE等）结合靶向活检提高诊断率。"
+},
+{
+"rule_id": "barrett_003",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管局部结节、隆起、平坦改变或凹陷糜烂",
+"applicable_scene": "在疑似Barrett食管背景黏膜中识别到局部结节、隆起、平坦改变或凹陷糜烂",
+"endoscopic_features": [
+"食管病变黏膜表面出现红色小结节或形态不规则",
+"发现黏膜形态破坏或局部糜烂病灶",
+"符合早期食管癌内镜下巴黎分型（0-I型、0-II型或0-III型）"
+],
+"required_fields": [
+"病灶相对正常黏膜的高低形态（隆起/平坦/凹陷）",
+"病灶表面颜色变化（如发红）",
+"边界清晰度",
+"有无溃疡或糜烂"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.8
+},
+"possible_meaning_safe": "在可疑Barrett食管背景下观察到不规则隆起、平坦或凹陷性病灶，提示可能合并高级别异型增生或疑似早期肿瘤性病变，具有较高的临床关注价值。",
+"recommendation_safe": "建议进行精细化内镜评估，必要时可考虑超声内镜(EUS)评估可疑病变的层次及浸润深度，并结合靶向活检进行病理组织学确诊。后续处理请由临床医师评估。",
+"forbidden_outputs": [
+"确诊食管腺癌",
+"确诊早期巴雷特腺癌",
+"判断病变浸润深度",
+"指导具体手术方案（如建议ESD/EMR）"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "FC618590-6E2B-49B0-3724-21A1C2DC8B83.pdf",
+"source_section_or_page": "早期巴雷特食管腺癌的诊断 & 超声内镜检查 (Page 4)",
+"evidence_text_summary": "早期食管腺癌典型表现为红色小结节或形态不规则、黏膜破坏。采用巴黎分型分为隆起、平坦、凹陷型。对于可疑早期癌推荐EUS检查评估浸润深度。"
+},
+{
+"rule_id": "barrett_004",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管合并肠上皮化生",
+"applicable_scene": "AI辅助生成针对疑似或既往已知Barrett食管患者的随访建议",
+"endoscopic_features": [
+"病变区域长度（长段≥3cm或短段<3cm）",
+"已知或疑似合并肠上皮化生"
+],
+"required_fields": [
+"病变长度是否≥3cm",
+"既往或本次活检提示是否伴有肠化生"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.6
+},
+"possible_meaning_safe": "不同长度及是否伴随肠上皮化生的疑似Barrett食管病变，其长期监测价值和癌变风险有所不同，需实施分层管理。",
+"recommendation_safe": "建议由专科医生结合病理结果制定随访计划。参考国内共识：若病理确诊长度<3cm且伴肠化生，可考虑每3-5年内镜随访；若病理确诊长度≥3cm，可考虑每2-3年复查。若多次活检未见肠化生且长度<3cm，可经医生评估后考虑调整或退出监测。",
+"forbidden_outputs": [
+"单方面判定患者可停止随访",
+"承诺不随访无风险",
+"出具绝对性医学随访处方"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "FC618590-6E2B-49B0-3724-21A1C2DC8B83.pdf",
+"source_section_or_page": "随访 (Page 8)",
+"evidence_text_summary": "巴雷特食管<3cm不伴肠化生且经活检证实无肠化生者建议退出监测；<3cm伴肠化生者建议3-5年复查；≥3cm者建议每2-3年复查。"
+},
+  {
+    "rule_id": "barrett_005",
+    "disease_type": "barrett_esophagus",
+    "cn_name": "Barrett食管相关黏膜改变",
+    "applicable_scene": "上消化道内镜提示疑似Barrett食管相关黏膜改变",
+    "endoscopic_features": [
+      "内镜下表现为食管远端胃食管交界上方灰白色食管鳞状上皮处出现橘红色柱状上皮区域",
+      "可能伴有栅栏样血管表现",
+      "柱状上皮区呈天鹅绒样，可形成环形、岛状以及指状或舌状突起"
+    ],
+    "required_fields": [
+      "形态特征（如全周型/锯齿状、舌型、岛状）",
+      "病变长度（长段≥3cm，短段<3cm）",
+      "布拉格C&M分类指标（C代表全周型化生黏膜的长度，M代表化生黏膜的最大长度）"
+    ],
+    "match_condition": {
+      "lesion_type": "barrett_esophagus",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "该内镜下表现提示可能存在Barrett食管相关的柱状上皮化生。由于伴有肠上皮化生者进展风险可能提高，需结合组织病理学检查以明确化生上皮类型（胃底型、贲门型或肠化型）及有无异型增生。",
+    "recommendation_safe": "建议结合内镜完整表现，必要时建议参考四象限活检法进行规范取材及病理组织学检查，最终诊疗意见及复查计划应由专业医生综合判断。",
+    "forbidden_outputs": [
+      "确诊Barrett食管",
+      "确诊伴有肠上皮化生",
+      "确诊食管腺癌",
+      "判断良恶性",
+      "无需复查",
+      "无需就医"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "20191213103839_49010.pdf",
+    "source_section_or_page": "二、Barrett 食管，第10-14页",
+    "evidence_text_summary": "Barrett食管内镜下表现为橘红色(或)伴有栅栏样血管表现的柱状上皮区域，呈天鹅绒样，形成环形、岛状以及指状或舌状突起 [cite: 82]。内镜分型可按化生柱状上皮长度（长段≥3cm、短段<3cm）、形态（全周型、舌型和岛状）或布拉格C&M分类进行描述 [cite: 86, 87, 88]。活检取材建议参照四象限活检法 [cite: 101]。"
+  },
+{
+"rule_id": "barrett_006",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管常规观察",
+"applicable_scene": "上消化道内镜提示疑似Barrett食管相关黏膜改变（常规观察）",
+"endoscopic_features": [
+"内镜下可见食管下段正常的复层鳞状上皮被柱状上皮取代",
+"病变上皮呈橘红色或天鹅绒样，与周围苍白的鳞状上皮形成对比",
+"柱状上皮化生病变长度通常≥1 cm"
+],
+"required_fields": [
+"鳞柱交界（SCJ）与胃食管结合部（GEJ）的位置",
+"病变环周长度（布拉格C值）",
+"病变最大长度（布拉格M值）",
+"病变形态（是否舌状、岛状）",
+"是否伴糜烂、溃疡或结节"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.7
+},
+"possible_meaning_safe": "内镜下表现提示可能存在Barrett食管相关黏膜改变，最终需病理证实是否存在肠上皮化生或异型增生。",
+"recommendation_safe": "建议结合内镜表现采用布拉格（Prague）C&M标准进行详细描述；建议在病变区域进行活检，以病理结果进一步评估黏膜性质。",
+"forbidden_outputs": [
+"确诊Barrett食管",
+"确诊食管腺癌",
+"判断良恶性",
+"无需复查",
+"无需就医"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "66853D4A-388D-9B38-FD84-D1224C9C18E8.pdf",
+"source_section_or_page": "第1-2页，诊断及内镜评估部分",
+"evidence_text_summary": "中国指南提出GEJ以上≥1 cm的柱状上皮取代提示疑似BE；建议采用布拉格C&M标准记录化生上皮的环周长度和最大长度。"
+},
+{
+"rule_id": "barrett_007",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管区域需进行活检病理采样",
+"applicable_scene": "疑似Barrett食管区域需进行活检病理采样以辅助判断",
+"endoscopic_features": [
+"疑似Barrett食管化生区域",
+"可能存在肉眼可见的不规则、隆起、结节或平坦型病变"
+],
+"required_fields": [
+"肉眼可见病变（Target lesion）的具体部位及数量",
+"活检取样点的位置和分布",
+"病变整体长度评估（以决定活检密度）"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.75
+},
+"possible_meaning_safe": "疑似Barrett食管区域存在化生或异型增生风险，规范的活检采样有助于提高病理诊断的准确性。",
+"recommendation_safe": "建议在专业医生操作下，优先对肉眼可见的异常病灶进行靶向活检；对于其余化生区域，建议参考西雅图（Seattle）方案，每间隔1-2 cm进行四象限多点活检。",
+"forbidden_outputs": [
+"指导具体活检手法",
+"确诊异型增生程度",
+"保证活检100%检出率",
+"代替病理诊断"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "66853D4A-388D-9B38-FD84-D1224C9C18E8.pdf",
+"source_section_or_page": "第2页，组织病理学检查及活检方案部分",
+"evidence_text_summary": "指南强调诊断需依赖病理，建议采用Seattle活检方案：优先靶向活检肉眼可见病变，随后每1~2 cm进行四壁（四象限）活检，以提高肠化生及异型增生检出率。"
+},
+{
+"rule_id": "barrett_008",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管可疑肉眼可见病变或重度异型增生风险",
+"applicable_scene": "内镜发现疑似Barrett食管伴可疑肉眼可见病变或重度异型增生风险",
+"endoscopic_features": [
+"Barrett食管背景内可见局部隆起、结节状损伤或平坦型异常病变",
+"病灶区域提示可能存在高级别黏膜改变"
+],
+"required_fields": [
+"病灶的形态分类（平坦型或肉眼可见损伤/结节）",
+"病变范围是否局限于黏膜层（需超声内镜等评估）",
+"有无多发病灶"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.8
+},
+"possible_meaning_safe": "疑似Barrett食管伴有局部异常改变，提示可能存在异型增生或早期黏膜病变的风险，需高度警惕并由专业团队评估。",
+"recommendation_safe": "建议经内镜专家及多学科团队（MDT）综合评估。对于肉眼可见损伤，可考虑内镜下切除（如EMR）以获取大块组织进行病理分期；平坦型病灶必要时可考虑射频消融（RFA）等处理方案。具体由临床医师制定。",
+"forbidden_outputs": [
+"直接建议手术切除",
+"直接开具射频消融或EMR处方",
+"断定为食管早癌",
+"判断病变浸润深度"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "66853D4A-388D-9B38-FD84-D1224C9C18E8.pdf",
+"source_section_or_page": "第3-4页，治疗及随访总结图表部分",
+"evidence_text_summary": "对于病理提示重度异型增生/早癌者，建议MDT讨论。肉眼可见病灶首选内镜切除(EMR)；平坦型病变可予RFA治疗；残余BE上皮需根除。"
+},
+{
+"rule_id": "barrett_009",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管监测计划评估",
+"applicable_scene": "疑似Barrett食管患者的随访及监测计划评估",
+"endoscopic_features": [
+"已明确或疑似的Barrett食管病变",
+"不同病变长度及既往异型增生情况"
+],
+"required_fields": [
+"既往病理是否有肠上皮化生或异型增生（轻度/重度）",
+"本次内镜复查时间间隔",
+"当前是否存在新的肉眼可见病变"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.6
+},
+"possible_meaning_safe": "疑似或已知Barrett食管需要长期的内镜随访，随访频率需根据病理异型增生程度进行分层管理。",
+"recommendation_safe": "建议根据专业医生建议定期内镜随访。一般来说，无异型增生者可考虑每3-5年复查；若疑似轻度异型增生，随访间隔可能需缩短至6-12个月；具体复查方案须以主治医师意见为准。",
+"forbidden_outputs": [
+"单方面取消复查计划",
+"确切规定下次检查的具体日期",
+"认为无异型增生就不会发生癌变",
+"忽视临床症状提供建议"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "66853D4A-388D-9B38-FD84-D1224C9C18E8.pdf",
+"source_section_or_page": "第4页，中英美三国指南对比表（随访部分）",
+"evidence_text_summary": "指南对比指出随访间隔：无异型增生者通常3-5年复查一次，低级别异型增生(LGD)通常6-12个月复查一次，需根据病理结果决定长期内镜监测频率。"
+},
+{
+"rule_id": "barrett_010",
+"disease_type": "barrett_esophagus",
+"cn_name": "Barrett食管复层鳞状上皮疑似被单层柱状上皮替代",
+"applicable_scene": "上消化道内镜提示食管下段可疑的化生黏膜改变",
+"endoscopic_features": [
+"内镜下可见食管下段复层鳞状上皮疑似被单层柱状上皮替代的区域",
+"局部黏膜色泽、形态出现与正常鳞状上皮不同的异常改变"
+],
+"required_fields": [
+"病变部位（如食管下段）",
+"黏膜异常改变的范围与长度",
+"是否伴随局部糜烂、粗糙或结节样改变"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.7
+},
+"possible_meaning_safe": "该黏膜表现提示可能存在Barrett食管相关改变，可能伴有肠上皮化生，需警惕其作为食管腺癌癌前病变的潜在风险，具体性质需经病理确认。",
+"recommendation_safe": "建议由专业内镜医师结合临床病史进行详细观察，必要时进行规范化的活组织病理检查，以明确病变是否伴有肠上皮化生及异型增生情况。",
+"forbidden_outputs": [
+"确诊Barrett食管",
+"确诊食管腺癌",
+"判断良恶性",
+"无需活检病理",
+"无需随访复查"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "20190605165641_4497.pdf",
+"source_section_or_page": "第1页，二、定义和术语",
+"evidence_text_summary": "Barrett食管指食管下段的复层鳞状上皮被化生的单层柱状上皮所替代的一种病理现象，可伴有肠上皮化生；Barrett食管相关异型增生则是腺癌的癌前病变。"
+},
+{
+"rule_id": "barrett_011",
+"disease_type": "barrett_esophagus",
+"cn_name": "特殊内镜技术可疑Barrett食管病灶分析",
+"applicable_scene": "应用特殊内镜技术（色素内镜、电子染色内镜等）筛查时的可疑Barrett食管病灶分析",
+"endoscopic_features": [
+"在色素内镜、电子染色内镜、共聚焦激光显微内镜（CLE）或自发荧光内镜（AFI）下观察到的疑似Barrett食管特征性显像",
+"强化显像下病灶边界或表面微细结构提示异常改变"
+],
+"required_fields": [
+"使用的特殊内镜辅助检查技术（如色素染色、电子染色、CLE等）",
+"异常显像的病灶形态、边界特征",
+"是否有明确的疑似增生或化生区域"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.75
+},
+"possible_meaning_safe": "特殊显像下的异常特征提示可能存在Barrett食管或早期相关黏膜病变，有助于提高微小病变的检出率，但不可直接作为确诊依据。",
+"recommendation_safe": "建议综合利用色素内镜、电子染色内镜等技术进行精细观察，并在内镜医师综合判断下对可疑区域实施指示性病理活检以协助明确诊断。",
+"forbidden_outputs": [
+"用光学图像代替病理诊断",
+"肯定是否存在微血管浸润",
+"确诊恶性肿瘤"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "20190605165641_4497.pdf",
+"source_section_or_page": "第14-15页，十、早期食管腺癌",
+"evidence_text_summary": "色素内镜、电子染色内镜、CLE、AFI等在提高Barrett食管和早期食管腺癌的检出率方面各有优势。"
+},
+{
+"rule_id": "barrett_012",
+"disease_type": "barrett_esophagus",
+"cn_name": "异型增生的Barrett食管病灶临床参考",
+"applicable_scene": "提示可疑伴有异型增生的Barrett食管病灶的临床管理参考",
+"endoscopic_features": [
+"病灶符合Barrett食管特征，且局部内镜形态学高度提示可能伴有不同程度的异型增生",
+"病灶周围存在可疑的早期黏膜形态改变"
+],
+"required_fields": [
+"可疑异型增生病灶的范围及形态",
+"病灶切除前后的相关黏膜评估描述",
+"是否伴随疑似其他合并症（如反流性食管炎样表现）"
+],
+"match_condition": {
+"lesion_type": "barrett_esophagus",
+"confidence_min": 0.8
+},
+"possible_meaning_safe": "内镜下表现可能提示Barrett食管及其可能伴随的异型增生风险，属于需由专科医师严密关注及干预的医学情况。",
+"recommendation_safe": "对于经病理证实伴有异型增生的Barrett食管，建议由专科医生综合评估是否适用射频消融术（RFA）或内镜黏膜切除术（EMR）等微创处理，并制定个体化的密切内镜随访计划。",
+"forbidden_outputs": [
+"直接指导内镜手术操作",
+"绕过病理直接建议消融或切除",
+"绝对预测狭窄等并发症发生率",
+"开具具体的治疗处方"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "20190605165641_4497.pdf",
+"source_section_or_page": "第15页，十、早期食管腺癌",
+"evidence_text_summary": "在伴有异型增生的Barrett食管治疗中，RFA疗效与EMR相当，且术后狭窄发生率更低；EMR后辅助RFA可在切除病灶后对周围可疑区域进行预防性处理以降低复发率。"
+},
+{
+    "rule_id": "colorectal_polyp_001",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉(术前评估)",
+    "applicable_scene": "结肠镜检查发现疑似结直肠息肉病灶，进行内镜下形态学及性质评估",
+    "endoscopic_features": [
+      "内镜视野下可见结直肠黏膜隆起性病变",
+      "表现为长蒂型(0-Ip)、亚蒂型(0-Isp)、宽基型(0-Is)或浅表隆起型(0-IIa)等巴黎分型形态",
+      "结合窄带光谱成像(NBI)等电子染色内镜或放大内镜观察表面结构及微血管特征"
+    ],
+    "required_fields": [
+      "部位",
+      "大小(直径)",
+      "形态(巴黎分型)",
+      "边界",
+      "表面特征(NICE/JNET/PP分型)"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "该表现提示可能存在结直肠息肉，其实际病理性质需结合内镜光学特征及最终病理检查结果综合判断。",
+    "recommendation_safe": "建议在专业医师指导下，结合白光及电子染色/放大内镜详细评估病灶大小、形态及边界。对于直径<10mm的疑似非癌性非带蒂息肉，经医生评估后可考虑内镜下圈套器冷切除术(CSP)等处理方案；对于直径≥20mm或≥10mm的带蒂息肉，建议由专业医师决定其他内镜干预方式。",
+    "forbidden_outputs": [
+      "确诊息肉良恶性",
+      "确诊腺瘤或癌变",
+      "直接下达切除指令",
+      "宣称病灶绝对安全无需处理"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不能替代内镜医师的现场评估与判断。所有病灶的性质诊断和内镜治疗决策必须由具有执业资格的临床医生做出。",
+    "source_file": "中国结直肠息肉冷切专家共识(2023年_杭州).pdf",
+    "source_section_or_page": "一、CSP适应证(陈述1、陈述3、陈述4)；二、CSP操作规范(陈述5)",
+    "evidence_text_summary": "推荐常规使用白光、NBI、色素或放大内镜详细评估息肉大小、形态、边界及性质。CSP推荐用于<10mm的非癌性非带蒂结直肠息肉，不推荐用于直径≥20mm的非带蒂息肉或≥10mm的带蒂息肉。"
+  },
+  {
+    "rule_id": "colorectal_polyp_002",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉(冷切除术后创面)",
+    "applicable_scene": "结肠镜下息肉冷切除术(CSP)后创面影像观察",
+    "endoscopic_features": [
+      "息肉切除后创面",
+      "创面中央或附近可见白色突起物(CSDP)",
+      "创面边缘是否有疑似残留的息肉样组织"
+    ],
+    "required_fields": [
+      "创面位置",
+      "白色突起物有无",
+      "创面边缘光整度",
+      "有无活动性出血"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "CSP术后创面出现的白色突起物多提示为机械性切割推挤造成的黏膜层/黏膜下层组织，通常不代表息肉残留或病变。",
+    "recommendation_safe": "提示可能属于术后常规组织反应（如黏膜肌层推挤），一般无需进行特殊处理。但建议内镜医师结合冲洗仔细观察创面边缘，排查是否可能存在息肉组织残留，并注意观察有无活动性出血。",
+    "forbidden_outputs": [
+      "确诊息肉残留",
+      "确诊创面穿孔",
+      "确诊活动性大出血",
+      "强制要求使用金属夹或电凝止血"
+    ],
+    "safety_note": "本结果仅供辅助提醒，术后创面的完整性、安全性及是否需要追加止血或切除措施，必须由手术医师根据现场实际情况综合判断。",
+    "source_file": "中国结直肠息肉冷切专家共识(2023年_杭州).pdf",
+    "source_section_or_page": "二、CSP操作规范(陈述10)",
+    "evidence_text_summary": "CSP术后创面常可见到白色突起物(CSDP)，其本质是黏膜肌层或黏膜下层组织，一般无粗大血管及息肉残留，不需要特殊处理。"
+  },
+  {
+    "rule_id": "colorectal_polyp_003",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉(术后随访情况)",
+    "applicable_scene": "结直肠息肉切除后，基于病变大小和形态特征辅助提供远期随访建议",
+    "endoscopic_features": [
+      "内镜下切除的息肉标本"
+    ],
+    "required_fields": [
+      "息肉大小估测",
+      "息肉数量",
+      "切除完整度"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "息肉病灶切除后，患者未来发生异时性病变的风险存在差异，具体风险等级需病理确诊后方可判定。",
+    "recommendation_safe": "建议将切除标本规范固定并送检病理评估。根据共识提示，若病理证实为低危腺瘤（直径<10mm且≤3个），建议由临床医生评估后考虑在3年内复查结肠镜；若提示为高危腺瘤（直径≥10mm、>3个或合并高级别上皮内瘤变），复查时间建议缩短至1~2年。",
+    "forbidden_outputs": [
+      "承诺已完全根治",
+      "出具病理诊断结论",
+      "制定强制性随访时间表",
+      "宣称无需复查"
+    ],
+    "safety_note": "随访计划仅为原则性提示，患者的实际复查方案必须由主治医生结合最终病理报告、标本切缘情况、患者病史及家族史制定。",
+    "source_file": "中国结直肠息肉冷切专家共识(2023年_杭州).pdf",
+    "source_section_or_page": "四、CSP标本处理(陈述15)；五、CSP术后管理(陈述17)",
+    "evidence_text_summary": "建议将收集到的CSP标本分别装入标本瓶进行病理学评估；CSP术后建议采取风险分层，低危腺瘤患者（<10mm，≤3个）应在3年内复查结肠镜，高危腺瘤患者（≥10mm，>3个或合并高级别上皮内瘤变）结肠镜复查时间应缩短至1~2年。"
+  },
+{
+    "rule_id": "colorectal_polyp_004",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉/早期病变（大体形态）",
+    "applicable_scene": "白光结肠镜检查发现黏膜表面异常，提示疑似结直肠息肉或表浅性病变",
+    "endoscopic_features": [
+      "内镜下可见黏膜隆起、平坦或凹陷等形态变化",
+      "病变表面可能呈现不同于周围正常黏膜的局部色泽改变、结节状粗糙不平等细微变化"
+    ],
+    "required_fields": [
+      "部位",
+      "大小（估计直径）",
+      "形态（建议参考巴黎分型，如0-Ip、0-Is、0-IIa、0-IIb、0-IIc、0-III型）",
+      "表面色泽",
+      "边界清晰度"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "该区域图像提示可能存在黏膜隆起或平坦型病变，疑似结直肠息肉或早期黏膜病变，具体性质需由内镜医师结合全方位观察及病理结果综合判定。",
+    "recommendation_safe": "建议仔细观察病变边界和范围，记录其大体形态及巴黎分型。必要时可结合染色内镜或电子染色内镜进一步评估，由临床医生决定是否需要行内镜下切除或组织活检。",
+    "forbidden_outputs": [
+      "确诊结直肠癌",
+      "确诊为腺瘤",
+      "直接判断为良性或恶性病变",
+      "排除癌变可能",
+      "无需处理或干预"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "中国早期结直肠癌筛查及内镜诊治指南.pdf",
+    "source_section_or_page": "七、结肠镜检查 (三)内镜检查技术 及 (四)早期结直肠癌的内镜分型 / 第350-352页",
+    "evidence_text_summary": "早期结直肠癌或癌前病变在白光内镜下表现为隆起或扁平病变，依据巴黎分型标准分为0-Ip/Is（隆起型）、0-IIa/IIb/IIc（平坦型）和0-III（凹陷型）等。大体形态有助于初步评估病变特征。"
+  },
+  {
+    "rule_id": "colorectal_polyp_005",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉/早期病变（表面微结构与微血管）",
+    "applicable_scene": "放大内镜或电子染色内镜（如NBI/FICE/I-Scan）模式下观察病变表面微细结构",
+    "endoscopic_features": [
+      "表面黏膜腺管开口（隐窝形态）可能呈现规律或不规律的形态改变",
+      "黏膜表面微血管网可能出现结构变化（如NICE分型特征）"
+    ],
+    "required_fields": [
+      "腺管开口分型（如参考Kudo pit pattern分型I至V型）",
+      "微血管表面特征（如参考NBI的NICE分型1、2、3型）",
+      "是否有无结构区域或明显血管中断"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.8
+    },
+    "possible_meaning_safe": "该区域表面的微血管或腺管开口形态提示可能存在肿瘤性或非肿瘤性病变特征。不同的分型特征常与病理类型（如增生性、腺瘤性或可疑浸润）存在一定的相关性，但并非确诊标准。",
+    "recommendation_safe": "建议临床医生结合Kudo腺管开口分型或NICE分型等标准对病灶进行综合评估，以辅助判断可能的组织学类型及黏膜下浸润深度风险，指导后续活检或内镜治疗方案。",
+    "forbidden_outputs": [
+      "确诊深层浸润癌",
+      "单凭图像确诊高级别上皮内瘤变",
+      "直接指导手术切除范围",
+      "断定无淋巴结转移风险"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "中国早期结直肠癌筛查及内镜诊治指南.pdf",
+    "source_section_or_page": "七、结肠镜检查 (三)内镜检查技术 及 九、术前评估 / 第350-351页，353页",
+    "evidence_text_summary": "放大内镜（Kudo的腺管开口分型）和电子染色内镜（如NBI分型、NICE分型）能在不作活检条件下辅助预测病灶的组织学类型（肿瘤性或非肿瘤性）及黏膜下浸润程度。"
+  },
+  {
+    "rule_id": "colorectal_polyp_006",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "侧向发育肿瘤(LST)",
+    "applicable_scene": "结肠镜检查发现直径较大且沿黏膜侧向生长的表浅性病变",
+    "endoscopic_features": [
+      "病变直径≥10mm",
+      "沿肠壁侧向扩展而非垂直生长",
+      "表面呈颗粒状（均一或结节混合）或非颗粒状（扁平或假凹陷）"
+    ],
+    "required_fields": [
+      "大小（是否≥10mm）",
+      "形态（沿侧向生长）",
+      "表面颗粒特征（颗粒型/非颗粒型）",
+      "是否伴有结节或明显凹陷"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.75
+    },
+    "possible_meaning_safe": "图像特征疑似侧向发育肿瘤(LST)。不同亚型（颗粒结节混合型、非颗粒假凹陷型等）的黏膜下浸润风险可能有所不同，需通过专业医师细致评估。",
+    "recommendation_safe": "提示医生注意评估其表面颗粒形态及结节或凹陷区域。对于可疑的LST病变，建议常规使用染色放大或电子染色内镜进一步评估黏膜下浸润风险，并在完整切除或活检方面遵循指南操作。",
+    "forbidden_outputs": [
+      "确诊为恶性肿瘤",
+      "绝对不伴有黏膜下浸润",
+      "判定不需要外科手术",
+      "建议采用分片切除而不关注复发风险"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "中国早期结直肠癌筛查及内镜诊治指南.pdf",
+    "source_section_or_page": "二、定义和术语 及 九、术前评估 / 第345页，353页",
+    "evidence_text_summary": "侧向发育肿瘤(LST)指直径≥10mm，沿肠壁侧向扩展的病变。分为颗粒型（均一型、结节混合型）和非颗粒型（扁平隆起型、假凹陷型）。结节混合型大结节及非颗粒凹陷处更易发生黏膜下浸润。"
+  },
+  {
+    "rule_id": "colorectal_polyp_007",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉/病变活检评估建议",
+    "applicable_scene": "发现可疑结直肠息肉或黏膜病变需要考虑获取病理组织时",
+    "endoscopic_features": [
+      "发现隆起型或平坦型黏膜病灶",
+      "内镜下怀疑可能具有肿瘤性或腺瘤性质"
+    ],
+    "required_fields": [
+      "病灶大小",
+      "病灶形态类别（隆起型 vs 平坦型）"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "对于所发现的疑似病变，精确的病理诊断是制定随访或切除策略的核心。图像分析提示存在需要由医生决定是否实施组织学取样或切除送检的病变。",
+    "recommendation_safe": "建议由内镜医生根据病灶特征决定操作策略：对较小的隆起型病变，可考虑活检或尽早完整切除送检；对较大的隆起型病变可酌情多点活检；对于平坦型病变，建议避免盲目多点活检以免引起黏膜下层纤维化增加未来内镜下切除难度，必要时考虑诊断性切除送检。",
+    "forbidden_outputs": [
+      "直接指示放弃活检",
+      "要求医生立刻切除病灶",
+      "自行给出病理分型结果（如确诊管状腺瘤）"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "中国早期结直肠癌筛查及内镜诊治指南.pdf",
+    "source_section_or_page": "七、结肠镜检查 (五)组织病理学检查 / 第352页",
+    "evidence_text_summary": "较小隆起型病变可活检1~2块或完整切除后送检；较大隆起型建议取2~4块组织。平坦型病变多块活检易致纤维化增加切除难度，建议尽早整块切除后送检。"
+  },
+  {
+    "rule_id": "colorectal_polyp_008",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉摘除后",
+    "applicable_scene": "病历资料显示患者此前进行过结肠息肉/腺瘤切除术",
+    "endoscopic_features": [
+      "结肠镜下发现息肉已干预或有明确的息肉切除史",
+      "结合息肉数量、大小、形态进行风险预判"
+    ],
+    "required_fields": [
+      "切除息肉的数量",
+      "息肉最大直径（如是否>10mm）",
+      "既往组织学提示（如果存在）"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.6
+    },
+    "possible_meaning_safe": "基于发现或切除的息肉数量和形态，提示患者属于需要定期监测的人群，以防复发或新发病变。",
+    "recommendation_safe": "建议临床医师在获取完整病理结果后，依据病灶大小、数量及病理分型为患者规划下一次高质量的全结肠镜复查时间（通常为1至5年不等，具体以最新指南与医生结合患者个体情况制定的计划为准）。",
+    "forbidden_outputs": [
+      "判定为绝无复发可能",
+      "直接推荐特定的药物预防",
+      "生成无需再查结肠镜的结论"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "中国早期结直肠癌筛查及内镜诊治指南.pdf",
+    "source_section_or_page": "十、治疗 (七)结肠息肉/腺瘤切除术后随访 (表6) / 第358页",
+    "evidence_text_summary": "结肠息肉或腺瘤切除术后，需根据初次检出的腺瘤数量、大小、有无高级别上皮内瘤变或是否为锯齿状病变来决定随访间隔，通常范围在1年至5年之间。"
+  },
+{
+"rule_id": "colorectal_polyp_009",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠微小息肉/病变（<5mm）",
+"applicable_scene": "结肠镜下提示发现直径小于5mm的微小疑似结直肠病变或息肉",
+"endoscopic_features": [
+"内镜下可见直径<5mm的微小隆起或黏膜异常"
+],
+"required_fields": [
+"部位",
+"大小（直径<5mm）",
+"形态特征",
+"边界"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.7,
+"size_condition": "<5mm"
+},
+"possible_meaning_safe": "该表现提示可能存在结直肠微小病变（可能为腺瘤性、锯齿状或其他类型息肉），但需结合内镜医师临床判断及病理结果进一步确认。",
+"recommendation_safe": "建议由专科医生结合患者具体情况综合评估。根据现有医学共识，对于此类微小病变，临床可能考虑内镜下干预（如圈套器切除术或活检钳钳除术等），必要时需完善病理检查以明确病变性质。",
+"forbidden_outputs": [
+"确诊结直肠癌",
+"确诊腺瘤",
+"判断良恶性",
+"直接下达手术指令",
+"确诊无需处理"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断或治疗方案，最终决策及处理方式应由专业内镜医师结合临床实际情况判定。",
+"source_file": "hc-refer-china-guideline-for-the-screening-early-detection-and-early-treatment-of-colorectal-cancer-2020-beijing-zh.pdf",
+"source_section_or_page": "第17页，三、关键问题及推荐意见 (六)结直肠癌及癌前病变早期治疗 (推荐意见 13.1)",
+"evidence_text_summary": "指南指出：对直径5mm以下的微小病变,推荐使用圈套器切除术;尚可考虑使用活检钳钳除术(弱推荐,GRADE 证据分级:中)。"
+},
+{
+"rule_id": "colorectal_polyp_010",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠小型息肉/病变（6-9mm）",
+"applicable_scene": "结肠镜下提示发现直径介于6至9mm的小型疑似结直肠病变或息肉",
+"endoscopic_features": [
+"内镜下可见直径在6~9mm之间的隆起或黏膜异常"
+],
+"required_fields": [
+"部位",
+"大小（直径6-9mm）",
+"形态特征（如有无蒂）",
+"表面黏膜及血管形态"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.7,
+"size_condition": "6-9mm"
+},
+"possible_meaning_safe": "图像特征提示可能存在结直肠小型息肉或相关黏膜病变，具体类型需内镜医师及病理学检查综合判定。",
+"recommendation_safe": "建议临床医生结合完整内镜检查结果进行评估。针对此类小型病变，临床常见干预方式可能包括圈套器切除（如冷圈套器切除术）或内镜下黏膜切除术（EMR），最终以专科医生意见与病理确诊为准。",
+"forbidden_outputs": [
+"确诊恶性肿瘤",
+"确诊病变类型",
+"指定使用冷圈套器",
+"保证切除后无复发"
+],
+"safety_note": "本系统仅提供病灶特征辅助提示，不可替代专科医生的内镜观察与病理诊断，任何临床操作需由有资质的医生决定。",
+"source_file": "hc-refer-china-guideline-for-the-screening-early-detection-and-early-treatment-of-colorectal-cancer-2020-beijing-zh.pdf",
+"source_section_or_page": "第17页，三、关键问题及推荐意见 (六)结直肠癌及癌前病变早期治疗 (推荐意见 13.2)",
+"evidence_text_summary": "指南指出：对直径6~9mm的小型病变,推荐使用圈套器切除术尤其是冷圈套器切除术;此外尚可考虑内镜下黏膜切除术(EMR)对难以切除的病变进行处理(强推荐,GRADE 证据分级:中)。"
+},
+{
+"rule_id": "colorectal_polyp_011",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠隆起型病变（>10mm）",
+"applicable_scene": "结肠镜下提示发现直径大于10mm的明显隆起型疑似结直肠病变",
+"endoscopic_features": [
+"内镜下可见直径大于10mm的隆起型病变",
+"可表现为有蒂、亚蒂或无蒂（如巴黎分型的Ip型、Isp型、Is型）"
+],
+"required_fields": [
+"部位",
+"大小（直径>10mm）",
+"形态（需关注蒂部特征，如Ip、Isp、Is型）",
+"基底宽度"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.7,
+"size_condition": ">10mm",
+"morphology": "elevated/pedunculated"
+},
+"possible_meaning_safe": "该病灶提示可能为较大的隆起型结直肠病变，可能具有较高的临床关注价值，建议结合内镜表现仔细评估其性质与蒂部特征。",
+"recommendation_safe": "建议由内镜专科医师进行详细评估。针对此类隆起型病变，临床可能会根据其蒂部特征（如有蒂或无蒂）评估并选择合适的内镜下切除技术，切除标本需常规送病理检查以明确诊断。",
+"forbidden_outputs": [
+"确诊癌变",
+"判断为良性",
+"直接出具治疗处方",
+"排除恶性可能"
+],
+"safety_note": "AI辅助分析并非最终结论，较大病灶可能涉及更复杂的临床处理，请务必遵从专业医生的综合诊断及处理规范。",
+"source_file": "hc-refer-china-guideline-for-the-screening-early-detection-and-early-treatment-of-colorectal-cancer-2020-beijing-zh.pdf",
+"source_section_or_page": "第17页，三、关键问题及推荐意见 (六)结直肠癌及癌前病变早期治疗 (推荐意见 13.3)",
+"evidence_text_summary": "指南指出：对直径大于10mm隆起型病变(Ip型、Isp型、Is型),推荐根据其蒂部特征选用合适的圈套器切除术进行处理(强推荐,GRADE 证据分级:中)。"
+},
+{
+"rule_id": "colorectal_polyp_012",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠平坦型病变（≤20mm）",
+"applicable_scene": "结肠镜下提示发现最大直径不超过20mm的平坦型或部分无蒂疑似结直肠病变",
+"endoscopic_features": [
+"内镜下可见平坦型黏膜异常（如IIa型、IIb型、IIc型）或部分无蒂（Is型）",
+"最大直径通常在20mm及以内"
+],
+"required_fields": [
+"部位",
+"大小（直径≤20mm）",
+"形态特征（平坦型或无蒂）",
+"表面形态及黏膜下征象"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.7,
+"size_condition": "<=20mm",
+"morphology": "flat/sessile"
+},
+"possible_meaning_safe": "提示可能存在结直肠平坦型或无蒂黏膜病变，这类病灶有时边界不易辨认，需内镜医师仔细甄别及评估其完整切除的可行性。",
+"recommendation_safe": "建议结合临床情况由内镜医师研判。对于具备一次性完全切除条件的此类病变，临床可能考虑采用内镜下黏膜切除术（EMR）等相关技术进行处理，并有赖于最终组织病理学验证。",
+"forbidden_outputs": [
+"确诊侧向发育型肿瘤(LST)",
+"确诊早期癌",
+"绝对建议使用EMR",
+"判断有无浸润"
+],
+"safety_note": "本提示信息旨在辅助内镜阅片，平坦型病变的临床干预涉及复杂的内镜下评估（如抬举征等），一切操作决策由接诊医师负责。",
+"source_file": "hc-refer-china-guideline-for-the-screening-early-detection-and-early-treatment-of-colorectal-cancer-2020-beijing-zh.pdf",
+"source_section_or_page": "第17页，三、关键问题及推荐意见 (六)结直肠癌及癌前病变早期治疗 (推荐意见 13.4)",
+"evidence_text_summary": "指南指出：对可一次性完全切除的平坦型(IIa型、IIb型、IIc型)以及一部分Is型病变,推荐使用EMR治疗。原则上EMR可一次性整块切除的病变最大直径不超过20mm(强推荐)。"
+},
+{
+"rule_id": "colorectal_polyp_013",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠大型或复杂病变（>20mm）",
+"applicable_scene": "结肠镜下提示发现最大直径超过20mm的大型疑似结直肠病变或伴随复杂特征",
+"endoscopic_features": [
+"病变最大直径超过20mm",
+"可能形态不规则，或疑似存在抬举征阴性等复杂临床特征"
+],
+"required_fields": [
+"部位",
+"大小（直径>20mm）",
+"形态及基底特征",
+"边界清晰度"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.7,
+"size_condition": ">20mm"
+},
+"possible_meaning_safe": "该区域提示可能存在结直肠巨大或复杂黏膜病变，此类病变范围较广，需警惕局部组织的异型增生或相关病理改变风险，由专科医师全面评估。",
+"recommendation_safe": "鉴于病灶较大或可能较为复杂，建议由有经验的内镜医师或多学科团队评估诊治。临床中对此类病变可能考虑高级内镜技术（如内镜下黏膜下层剥离术 ESD 或分块 EMR）进行处理，明确诊断及干预需严格遵守临床路径。",
+"forbidden_outputs": [
+"确诊晚期肠癌",
+"建议进行外科开腹手术",
+"预言病变无法内镜下切除",
+"判断疾病预后"
+],
+"safety_note": "巨大病变的诊断及处理属于高阶临床决策，AI系统仅做辅助发现提示，决不可替代医生对病变深度、边界及治疗适应症的综合判断。",
+"source_file": "hc-refer-china-guideline-for-the-screening-early-detection-and-early-treatment-of-colorectal-cancer-2020-beijing-zh.pdf",
+"source_section_or_page": "第17页，三、关键问题及推荐意见 (六)结直肠癌及癌前病变早期治疗 (推荐意见 13.5)",
+"evidence_text_summary": "指南指出：对于最大直径超过20mm的难以使用EMR行一次性完全切除的病变、抬举征阴性的病变等...推荐使用内镜下黏膜下层剥离术(ESD)进行处理。当ESD难以开展时可考虑分块EMR技术(EPMR)。"
+},
+{
+    "rule_id": "colorectal_polyp_014",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉/腺瘤常规提示",
+    "applicable_scene": "结肠镜检查提示疑似结直肠息肉或腺瘤样病变",
+    "endoscopic_features": [
+      "内镜下可见结直肠黏膜隆起或病灶",
+      "疑似起源于黏膜腺上皮的病变",
+      "可利用放大染色内镜、细胞内镜及超声内镜观察病灶表面及可能的浸润深度"
+    ],
+    "required_fields": [
+      "病灶部位",
+      "病灶大小",
+      "病灶数量",
+      "表面形态",
+      "疑似浸润深度评估（若有相关高级内镜结果）"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "该病灶提示可能存在结直肠息肉或腺瘤等相关黏膜病变，是结直肠癌的潜在相关病变之一，但需结合临床进一步明确。",
+    "recommendation_safe": "建议由专业内镜医生仔细观察病变，必要时考虑结合放大染色内镜或超声内镜评估性质，最终建议以规范化切除后的组织病理学诊断为准。",
+    "forbidden_outputs": [
+      "确诊结直肠癌",
+      "确诊良性息肉",
+      "判断良恶性",
+      "建议放弃治疗",
+      "无需病理"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "1711078748835059059.pdf",
+    "source_section_or_page": "8 结直肠腺瘤及早期结直肠癌中西医结合诊治评述 (第4页) / 2 定义 (第1页)",
+    "evidence_text_summary": "结直肠腺瘤被认为是一种癌前病变，所有结直肠肿瘤疑有癌变时均应仔细观察，有条件时可行放大染色内镜、细胞内镜及超声内镜检查以判断性质和可能的浸润深度。内镜切除后需精准病理评估。"
+  },
+  {
+    "rule_id": "colorectal_polyp_015",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉内镜切除策略提示",
+    "applicable_scene": "AI检出并测量出结直肠息肉的具体大小尺寸",
+    "endoscopic_features": [
+      "微小息肉(≤5mm)",
+      "小型息肉(6~9mm)",
+      "结直肠表浅肿瘤(10~20mm)",
+      "大型病变(>20mm)"
+    ],
+    "required_fields": [
+      "病灶最大径",
+      "病灶形态特征"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "has_size": true,
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "系统提示发现不同大小的息肉样病灶，不同尺寸的病变可能适用于不同的内镜干预和切除策略。",
+    "recommendation_safe": "根据大小评估：微小息肉（≤5mm）建议由医生评估是否行冷圈套器切除；小型息肉（6~9mm）可考虑冷或热圈套器切除；10~20mm表浅病变建议考虑内镜黏膜切除术(EMR)；大于20mm病变建议评估内镜黏膜下剥离术(ESD)的可能性。上述干预方案须由专业医师结合禁忌症及临床实际决定。",
+    "forbidden_outputs": [
+      "必须做ESD",
+      "必须做EMR",
+      "要求使用热钳除",
+      "直接给出治疗处方",
+      "确定可根治"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "1711078748835059059.pdf",
+    "source_section_or_page": "5.2.1 内镜下切除 (第3页)",
+    "evidence_text_summary": "内镜切除方式应根据息肉大小选择：微小息肉推荐冷圈套器切除；小型息肉推荐冷/热圈套器切除；10-20mm表浅肿瘤推荐EMR；>20mm推荐ESD。不推荐APC等无法明确病理诊断的破坏性疗法作为首选。"
+  },
+  {
+    "rule_id": "colorectal_polyp_016",
+    "disease_type": "colorectal_polyp",
+    "cn_name": "结直肠息肉/腺瘤随访评估",
+    "applicable_scene": "提示结肠息肉/腺瘤切除术后的定期复查与随访规划",
+    "endoscopic_features": [
+      "管状腺瘤、绒毛状腺瘤",
+      "病灶大小(如≤10mm, >10mm, ≥20mm)",
+      "病灶数量(如1-4个, 5-10个, >10个)",
+      "切除状态(整块切除、分片切除)"
+    ],
+    "required_fields": [
+      "腺瘤数量",
+      "腺瘤大小",
+      "病理类型(是否绒毛状/高级别上皮内瘤变)",
+      "内镜切除方式(整块/分片)"
+    ],
+    "match_condition": {
+      "lesion_type": "colorectal_polyp",
+      "confidence_min": 0.7
+    },
+    "possible_meaning_safe": "提示该患者可能存在结直肠息肉或腺瘤切除史，由于此类病灶存在术后复发可能性，建议进行规划性的结肠镜随访。",
+    "recommendation_safe": "建议遵循内镜随访策略：1-4个且≤10mm的管状腺瘤，建议1-3年复查；若为5-10个或存在>10mm、绒毛状腺瘤，建议1-2年内复查；检出>10个、伴高级别上皮内瘤变或≥20mm整块切除者建议术后1年复查；≥20mm且分片切除者建议术后3-6个月复查。具体方案请严格遵医嘱。",
+    "forbidden_outputs": [
+      "宣称绝对安全不会复发",
+      "判定无需肠镜随访",
+      "自行调整医生制定的随访方案",
+      "诊断复发"
+    ],
+    "safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+    "source_file": "1711078748835059059.pdf",
+    "source_section_or_page": "7 随访 (第4页)",
+    "evidence_text_summary": "结直肠腺瘤切除后推荐密切随访：1~4个≤10mm管状腺瘤1~3年复查；5~10个或>10mm管状腺瘤、绒毛状腺瘤1~2年复查；>10个或伴高级别内瘤变、≥20mm整块切除建议1年复查；≥20mm分片切除建议3~6个月复查。"
+  },
+{
+"rule_id": "colorectal_polyp_017",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠息肉/腺瘤",
+"applicable_scene": "结直肠镜提示可疑结直肠息肉、腺瘤或黏膜病变",
+"endoscopic_features": [
+"内镜下可见结直肠黏膜隆起、广基或带蒂病变",
+"可呈息肉样、腺瘤样改变"
+],
+"required_fields": [
+"进镜深度/病灶部位",
+"肿物大小",
+"距肛缘位置",
+"形态(如带蒂、广基/无蒂)",
+"局部浸润范围",
+"有无肠腔狭窄"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.7
+},
+"possible_meaning_safe": "图像提示可能存在结直肠息肉或腺瘤等黏膜病变，但需结合临床与内镜医师评估确诊。",
+"recommendation_safe": "建议由专业内镜医师综合评估，对可疑病变建议行病理学活组织检查；由于肠管可能皱缩导致距离判断误差，必要时建议结合影像学明确病灶部位。",
+"forbidden_outputs": [
+"确诊结直肠癌",
+"确诊腺瘤",
+"判断良恶性",
+"无需病理诊断",
+"直接指导临床治疗方案"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "xhyxzz.2023-0315.pdf",
+"source_section_or_page": "1.5 内镜检查 (第2页) / 表7 (第9页)",
+"evidence_text_summary": "内镜检查报告必须包括进镜深度、肿物大小、距肛缘位置、形态、局部浸润的范围及有无肠腔狭窄，对可疑病变必须行病理学活组织检查。由于肠管皱缩距离可能存在误差，建议结合影像学明确。"
+},
+{
+"rule_id": "colorectal_polyp_018",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠息肉(内镜下切除评估)",
+"applicable_scene": "拟评估是否适合内镜下切除的结直肠可疑息肉或早期黏膜病变",
+"endoscopic_features": [
+"病灶大小特征(如是否<3cm)",
+"病灶活动度特征(如活动，不固定)",
+"病变占肠周比例特征(如是否<30%)"
+],
+"required_fields": [
+"肿物最大径及另外两径",
+"肿瘤侵犯肠周比例",
+"病灶活动度",
+"形态特征(如有蒂息肉的蒂部直径)"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.8
+},
+"possible_meaning_safe": "病灶可能具备部分内镜下切除的形态学特征，但其实际浸润深度与组织学特征需由临床医师进一步判定。",
+"recommendation_safe": "决定行内镜下切除前，建议由医师仔细评估肿瘤大小、预测浸润深度及肿瘤分化程度；若切除，标本离体后建议规范化展平、固定并标记方位后送病理检查。",
+"forbidden_outputs": [
+"直接建议内镜下切除(ESD/EMR)",
+"断定无淋巴结转移",
+"判定浸润深度",
+"确诊为T1期癌"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "xhyxzz.2023-0315.pdf",
+"source_section_or_page": "3.1.2 cT1N0M0期结肠癌 (第11-12页) / 2.2.2 内镜切除标本 (第5-6页)",
+"evidence_text_summary": "决定内镜切除前需仔细评估大小、浸润深度等；内镜下/局部切除的条件包括肿瘤<3cm、侵犯肠周<30%、活动不固定等。局部切除标本必须由手术医师展平、固定并标记方位后送病理。"
+},
+{
+"rule_id": "colorectal_polyp_019",
+"disease_type": "colorectal_polyp",
+"cn_name": "结直肠腺瘤/息肉(随访与复查)",
+"applicable_scene": "结直肠切除术后或息肉切除术后的定期肠镜随访检查",
+"endoscopic_features": [
+"结直肠镜下新发或残存息肉样/腺瘤样隆起病变"
+],
+"required_fields": [
+"发现部位",
+"病灶数量",
+"病灶大小",
+"病灶形态"
+],
+"match_condition": {
+"lesion_type": "colorectal_polyp",
+"confidence_min": 0.75
+},
+"possible_meaning_safe": "提示肠道可能存在新发或复发的息肉/腺瘤样黏膜改变，需临床医师进一步评估确认。",
+"recommendation_safe": "建议遵循规范的结直肠定期随访策略；随诊检查中若发现可疑结直肠腺瘤/息肉，经专业医师综合评估后，必要时建议予以规范切除并送检。",
+"forbidden_outputs": [
+"确诊肿瘤复发",
+"判定为恶变",
+"给出绝对的复查时间表而忽略患者个体差异",
+"建议患者终止随访"
+],
+"safety_note": "本结果仅供人工智能辅助分析，不作为最终诊断依据，最终结论应由专业医生结合内镜、病理和临床资料综合判断。",
+"source_file": "xhyxzz.2023-0315.pdf",
+"source_section_or_page": "11 随访 (第22-23页)",
+"evidence_text_summary": "术后1年内行肠镜检查，如有异常1年内复查；如未见息肉，3年内复查；之后5年1次。随诊检查出现的结直肠腺瘤均推荐切除。"
+}
+]

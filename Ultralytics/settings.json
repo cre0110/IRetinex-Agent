@@ -1,0 +1,21 @@
+{
+  "settings_version": "0.0.6",
+  "datasets_dir": "D:\\MedicalAI\\\u667a\u5f71\u533b\u955c\\datasets",
+  "weights_dir": "weights",
+  "runs_dir": "runs",
+  "uuid": "b2bb07d0800ac57bea306297aebaa560bfd0919fa6981ef53b282fb62a893c09",
+  "sync": true,
+  "api_key": "",
+  "openai_api_key": "",
+  "clearml": true,
+  "comet": true,
+  "dvc": true,
+  "hub": true,
+  "mlflow": true,
+  "neptune": true,
+  "raytune": true,
+  "tensorboard": false,
+  "wandb": false,
+  "vscode_msg": true,
+  "openvino_msg": true
+}
